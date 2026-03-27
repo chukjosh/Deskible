@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/settings.svg</file>
+        <file>icons/next.svg</file>
+        <file>icons/previous.svg</file>
+        <file>icons/random.svg</file>
+        <file>icons/info.svg</file>
+        <file>icons/close.svg</file>
+        <file>icons/minimize.svg</file>
+        <file>icons/copy.svg</file>
+        <file>icons/share.svg</file>
+        <file>icons/history.svg</file>
+        <file>icons/startup.svg</file>
+        <file>icons/bible.svg</file>
+        <file>icons/font.svg</file>
+        <file>icons/color.svg</file>
+        <file>icons/opacity.svg</file>
+        <file>icons/width.svg</file>
+        <file>icons/interval.svg</file>
+        <file>icons/auto.svg</file>
+        <file>icons/path.svg</file>
+        <file>icons/save.svg</file>
+        <file>icons/cancel.svg</file>
+    </qresource>
+</RCC>
