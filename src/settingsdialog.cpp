@@ -73,7 +73,19 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     QGroupBox *appearanceGroup = new QGroupBox(tr("Appearance"), this);
     QVBoxLayout *appLayout = new QVBoxLayout(appearanceGroup);
     
-    QPushButton *fontBtn = new QPushButton(QIcon(iconPrefix + "font.svg"), tr("Choose Font..."), this);
+    QHBoxLayout *vScaleLayout = new QHBoxLayout();
+    vScaleLayout->addWidget(new QLabel(tr("Verse Font Scale (%):"), this));
+    m_verseScaleSpin = new QDoubleSpinBox(this);
+    m_verseScaleSpin->setRange(0.5, 3.0);
+    m_verseScaleSpin->setSingleStep(0.1);
+    connect(m_verseScaleSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [this](double val) {
+        m_mainWindow->setVerseScale(val);
+        m_mainWindow->applySettings();
+    });
+    vScaleLayout->addWidget(m_verseScaleSpin);
+    appLayout->addLayout(vScaleLayout);
+
+    QPushButton *fontBtn = new QPushButton(QIcon(iconPrefix + "font.svg"), tr("Choose Base Font..."), this);
     connect(fontBtn, &QPushButton::clicked, this, &SettingsDialog::onPickFont);
     appLayout->addWidget(fontBtn);
 
@@ -306,6 +318,7 @@ void SettingsDialog::loadCurrentValues()
     m_opacitySpin->setValue(static_cast<int>(m_mainWindow->opacityValue() * 100));
     m_maxWidthSpin->setValue(m_mainWindow->maxWidthValue());
     m_maxHeightSpin->setValue(m_mainWindow->maxHeightValue());
+    m_verseScaleSpin->setValue(m_mainWindow->verseScale());
     m_refScaleSpin->setValue(m_mainWindow->refScale());
     m_themeCombo->setCurrentIndex(static_cast<int>(m_mainWindow->theme()));
     
@@ -347,9 +360,11 @@ void SettingsDialog::onPickFont()
 
 void SettingsDialog::onPickVerseColor()
 {
-    QColor color = QColorDialog::getColor(m_currentVerseColor, this, tr("Pick Verse Color"), QColorDialog::ShowAlphaChannel);
-    if (color.isValid()) {
-        m_currentVerseColor = color;
+    QColorDialog dialog(m_currentVerseColor, this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel);
+    dialog.setOption(QColorDialog::DontUseNativeDialog);
+    if (dialog.exec() == QDialog::Accepted) {
+        m_currentVerseColor = dialog.selectedColor();
         m_mainWindow->setVerseColor(m_currentVerseColor);
         m_mainWindow->applySettings();
     }
@@ -357,9 +372,11 @@ void SettingsDialog::onPickVerseColor()
 
 void SettingsDialog::onPickRefColor()
 {
-    QColor color = QColorDialog::getColor(m_currentRefColor, this, tr("Pick Reference Color"), QColorDialog::ShowAlphaChannel);
-    if (color.isValid()) {
-        m_currentRefColor = color;
+    QColorDialog dialog(m_currentRefColor, this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel);
+    dialog.setOption(QColorDialog::DontUseNativeDialog);
+    if (dialog.exec() == QDialog::Accepted) {
+        m_currentRefColor = dialog.selectedColor();
         m_mainWindow->setRefColor(m_currentRefColor);
         m_mainWindow->applySettings();
     }
@@ -370,6 +387,7 @@ void SettingsDialog::onAccepted()
     m_mainWindow->setAutoSwitch(m_autoSwitchCheck->isChecked());
     m_mainWindow->setSwitchInterval(m_intervalSpin->value());
     m_mainWindow->setVerseFont(m_currentFont);
+    m_mainWindow->setVerseScale(m_verseScaleSpin->value());
     m_mainWindow->setVerseColor(m_currentVerseColor);
     m_mainWindow->setRefColor(m_currentRefColor);
     m_mainWindow->setRefScale(m_refScaleSpin->value());

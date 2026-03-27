@@ -53,8 +53,8 @@ void MainWindow::loadSettings()
     m_sizeMode = static_cast<SizeMode>(settings.value("sizeMode", 0).toInt());
     
     m_verseFont = settings.value("verseFont", QFont("Georgia", 13)).value<QFont>();
-    m_verseColor = QColor(settings.value("verseColor", "#FFFFFFFF").toString());
-    m_refScale = settings.value("refScale", 0.78).toDouble();
+    m_verseScale = settings.value("verseScale", 1.0).toDouble();
+    m_refColor = QColor(settings.value("refColor", "#FFAAAAFF").toString());
     
     QString defaultPath = QCoreApplication::applicationDirPath() + "/bibleversions/kjv.txt";
     QString alternatePath = QDir::currentPath() + "/bibleversions/kjv.txt";
@@ -89,6 +89,7 @@ void MainWindow::saveSettings()
     settings.setValue("sizeMode", static_cast<int>(m_sizeMode));
     settings.setValue("verseFont", m_verseFont);
     settings.setValue("verseColor", m_verseColor.name(QColor::HexArgb));
+    settings.setValue("verseScale", m_verseScale);
     settings.setValue("refColor", m_refColor.name(QColor::HexArgb));
     settings.setValue("refScale", m_refScale);
     settings.setValue("filePath", m_biblePath);
@@ -125,6 +126,7 @@ void MainWindow::setMaxHeight(int height) { m_maxHeight = height; }
 void MainWindow::setTheme(Theme theme) { m_theme = theme; }
 void MainWindow::setSizeMode(SizeMode mode) { m_sizeMode = mode; }
 void MainWindow::setVerseFont(const QFont &font) { m_verseFont = font; }
+void MainWindow::setVerseScale(double scale) { m_verseScale = scale; }
 void MainWindow::setVerseColor(const QColor &color) { m_verseColor = color; }
 void MainWindow::setRefColor(const QColor &color) { m_refColor = color; }
 void MainWindow::setRefScale(double scale) { m_refScale = scale; }
@@ -201,7 +203,9 @@ void MainWindow::updateWindowSize()
         int margin = 10;
         int contentWidth = m_maxWidth - (margin * 2) - (padding * 2);
         
-        QFontMetrics fm(m_verseFont);
+        QFont vFont = m_verseFont;
+        vFont.setPointSizeF(m_verseFont.pointSizeF() * m_verseScale);
+        QFontMetrics fm(vFont);
         QRect textRect = fm.boundingRect(0, 0, contentWidth, 1000, 
                                           Qt::AlignLeft | Qt::TextWordWrap, m_currentText);
         
@@ -239,7 +243,9 @@ void MainWindow::paintEvent(QPaintEvent *event)
     }
 
     QColor bgColor = isDark ? QColor(20, 20, 35) : QColor(245, 245, 250);
-    bgColor.setAlphaF(m_opacity);
+    double targetOpacity = m_opacity;
+    if (m_hovered && targetOpacity < 0.15) targetOpacity = 0.15; // "A little dark" on hover
+    bgColor.setAlphaF(targetOpacity);
     
     QColor shadowColor = isDark ? QColor(0, 0, 0) : QColor(100, 100, 120);
     int shadowAlpha = isDark ? 12 : 8;
@@ -272,13 +278,15 @@ void MainWindow::paintEvent(QPaintEvent *event)
     QRect contentRect = rect.adjusted(padding, padding, -padding, -padding);
 
     // Verse Text
-    painter.setFont(m_verseFont);
+    QFont vFont = m_verseFont;
+    vFont.setPointSizeF(m_verseFont.pointSizeF() * m_verseScale);
+    painter.setFont(vFont);
     painter.setPen(m_verseColor);
     painter.drawText(contentRect, Qt::AlignLeft | Qt::TextWordWrap, m_currentText);
 
     // Reference Text
     if (!m_currentRef.isEmpty()) {
-        QFont refFont = m_verseFont;
+        QFont refFont = m_verseFont; // Base scale off original font
         refFont.setPointSizeF(m_verseFont.pointSizeF() * m_refScale);
         refFont.setItalic(true);
         painter.setFont(refFont);
@@ -371,4 +379,19 @@ void MainWindow::changeEvent(QEvent *event)
     }
     QWidget::changeEvent(event);
 }
+
+void MainWindow::enterEvent(QEnterEvent *event)
+{
+    Q_UNUSED(event);
+    m_hovered = true;
+    update();
+}
+
+void MainWindow::leaveEvent(QEvent *event)
+{
+    Q_UNUSED(event);
+    m_hovered = false;
+    update();
+}
+
 

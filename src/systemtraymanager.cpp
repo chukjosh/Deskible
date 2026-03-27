@@ -11,29 +11,46 @@ SystemTrayManager::SystemTrayManager(MainWindow *window, QObject *parent)
     : QObject(parent), m_window(window)
 {
     m_trayIcon = new QSystemTrayIcon(this);
-    m_trayIcon->setIcon(createTrayIcon());
+    m_trayIcon->setIcon(QIcon(":/icons/icons/logo.png"));
     m_trayIcon->setToolTip("Deskible");
 
     m_trayMenu = new QMenu();
-    m_trayMenu->setStyleSheet(
-        "QMenu { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 8px; padding: 4px; }"
-        "QMenu::item { padding: 6px 20px; border-radius: 4px; }"
-        "QMenu::item:selected { background-color: #2a2a5e; }"
-    );
+    bool isDark = true;
+    if (m_window->theme() == Theme::Dark) isDark = true;
+    else if (m_window->theme() == Theme::Light) isDark = false;
+    else {
+        QPalette p = qApp->palette();
+        isDark = p.color(QPalette::WindowText).lightness() > p.color(QPalette::Window).lightness();
+    }
+    QString iconPrefix = isDark ? ":/icons/icons/white/" : ":/icons/icons/dark/";
 
-    m_trayMenu->addAction(QIcon(":/icons/icons/bible.svg"), tr("Show/Hide"), [this]() {
+    if (isDark) {
+        m_trayMenu->setStyleSheet(
+            "QMenu { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 8px; padding: 4px; }"
+            "QMenu::item { padding: 6px 20px; border-radius: 4px; }"
+            "QMenu::item:selected { background-color: #2a2a5e; }"
+        );
+    } else {
+        m_trayMenu->setStyleSheet(
+            "QMenu { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 8px; padding: 4px; }"
+            "QMenu::item { padding: 6px 20px; border-radius: 4px; }"
+            "QMenu::item:selected { background-color: #f0f0ff; }"
+        );
+    }
+
+    m_trayMenu->addAction(QIcon(iconPrefix + "bible.svg"), tr("Show/Hide"), [this]() {
         if (m_window->isVisible()) m_window->hide();
         else m_window->show();
     });
-    m_trayMenu->addAction(QIcon(":/icons/icons/next.svg"), tr("Next Verse"), m_window, &MainWindow::nextVerse);
-    m_trayMenu->addAction(QIcon(":/icons/icons/random.svg"), tr("Random Verse"), m_window, &MainWindow::randomVerse);
+    m_trayMenu->addAction(QIcon(iconPrefix + "next.svg"), tr("Next Verse"), m_window, &MainWindow::nextVerse);
+    m_trayMenu->addAction(QIcon(iconPrefix + "random.svg"), tr("Random Verse"), m_window, &MainWindow::randomVerse);
     m_trayMenu->addSeparator();
-    m_trayMenu->addAction(QIcon(":/icons/icons/settings.svg"), tr("Settings"), [this]() {
+    m_trayMenu->addAction(QIcon(iconPrefix + "settings.svg"), tr("Settings"), [this]() {
         SettingsDialog dialog(m_window);
         dialog.exec();
     });
     m_trayMenu->addSeparator();
-    m_trayMenu->addAction(QIcon(":/icons/icons/close.svg"), tr("Quit"), qApp, &QCoreApplication::quit);
+    m_trayMenu->addAction(QIcon(iconPrefix + "close.svg"), tr("Quit"), qApp, &QCoreApplication::quit);
 
     m_trayIcon->setContextMenu(m_trayMenu);
 

@@ -31,6 +31,7 @@ public:
     void setTheme(Theme theme);
     void setSizeMode(SizeMode mode);
     void setVerseFont(const QFont &font);
+    void setVerseScale(double scale);
     void setVerseColor(const QColor &color);
     void setRefColor(const QColor &color);
     void setRefScale(double scale);
@@ -53,6 +54,7 @@ public:
     Theme theme() const { return m_theme; }
     SizeMode sizeMode() const { return m_sizeMode; }
     QFont verseFont() const { return m_verseFont; }
+    double verseScale() const { return m_verseScale; }
     QColor verseColor() const { return m_verseColor; }
     QColor refColor() const { return m_refColor; }
     double refScale() const { return m_refScale; }
@@ -69,6 +71,8 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
     void changeEvent(QEvent *event) override;
+    void enterEvent(QEnterEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 private slots:
     void onVerseReady(QString text, QString reference, QString version);
@@ -99,6 +103,7 @@ private:
     Theme m_theme = Theme::System;
     SizeMode m_sizeMode = SizeMode::Dynamic;
     QFont m_verseFont;
+    double m_verseScale = 1.0;
     QColor m_verseColor;
     QColor m_refColor;
     double m_refScale = 0.78;
@@ -106,6 +111,7 @@ private:
 
     // Interaction
     bool m_dragging = false;
+    bool m_hovered = false;
     QPoint m_dragPos;
 };
 

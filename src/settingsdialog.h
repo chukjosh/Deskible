@@ -46,6 +46,7 @@ private:
     QComboBox *m_themeCombo;
     QButtonGroup *m_sizeModeGroup;
 
+    QDoubleSpinBox *m_verseScaleSpin;
     QDoubleSpinBox *m_refScaleSpin;
     QCheckBox *m_autoSwitchCheck;
     QSpinBox *m_intervalSpin;
