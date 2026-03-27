@@ -162,7 +162,6 @@ void MainWindow::setVerseColor(const QColor &color) { m_verseColor = color; }
 void MainWindow::setAccentColor(const QColor &color) { m_accentColor = color; }
 void MainWindow::setHoverOpacity(double opacity) { m_hoverOpacity = opacity; update(); }
 void MainWindow::setRefColor(const QColor &color) { m_refColor = color; }
-void MainWindow::setRefColor(const QColor &color) { m_refColor = color; }
 void MainWindow::setRefScale(double scale) { m_refScale = scale; }
 
 void MainWindow::resetToDefaults()
@@ -333,7 +332,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     
     QPen borderPen(borderGrad, 1.2);
     painter.setPen(borderPen);
-    painter.setBrush(Qt::NoPen);
+    painter.setBrush(Qt::NoBrush);
     painter.drawRoundedRect(rect.adjusted(1, 1, -1, -1), 12, 12);
 
     // --- Layer 5: Accent Indicator (Left line) ---
@@ -355,10 +354,8 @@ void MainWindow::paintEvent(QPaintEvent *event)
     painter.setPen(QPen(isDark ? QColor(255, 255, 255, 45) : QColor(255, 255, 255, 120), 1));
     painter.drawPath(highlight);
 
-    // Content
-    int padding = 18;
-    QRect contentRect = rect.adjusted(padding, padding, -padding, -padding);
-
+    // Content area already defined above as contentRect
+    
     // Verse Text
     QFont vFont = m_verseFont;
     vFont.setPointSizeF(m_verseFont.pointSizeF() * m_verseScale);
