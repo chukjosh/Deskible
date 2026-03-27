@@ -105,8 +105,8 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     themeLayout->addWidget(new QLabel(tr("Theme:"), this));
     m_themeCombo = new QComboBox(this);
     m_themeCombo->addItem(tr("Follow System"), 0);
-    m_themeCombo->addItem(tr("Dark Mode"), 1);
-    m_themeCombo->addItem(tr("Light Mode"), 2);
+    m_themeCombo->addItem(tr("Light Mode"), 1);
+    m_themeCombo->addItem(tr("Dark Mode"), 2);
     themeLayout->addWidget(m_themeCombo);
     appLayout->addLayout(themeLayout);
 
