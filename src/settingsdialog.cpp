@@ -203,8 +203,23 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     mainLayout->addWidget(startupGroup);
 
     // Utilities
-    QGroupBox *utilGroup = new QGroupBox(tr("Utilities"), this);
+    QGroupBox *utilGroup = new QGroupBox(tr("Utilities & Navigation"), this);
     QVBoxLayout *utilLayout = new QVBoxLayout(utilGroup);
+    
+    QHBoxLayout *navLayout = new QHBoxLayout();
+    QPushButton *prevBtn = new QPushButton(QIcon(iconPrefix + "previous.svg"), tr("Previous"), this);
+    QPushButton *nextBtn = new QPushButton(QIcon(iconPrefix + "next.svg"), tr("Next"), this);
+    QPushButton *randBtn = new QPushButton(QIcon(iconPrefix + "random.svg"), tr("Random"), this);
+    
+    connect(prevBtn, &QPushButton::clicked, m_mainWindow, &MainWindow::previousVerse);
+    connect(nextBtn, &QPushButton::clicked, m_mainWindow, &MainWindow::nextVerse);
+    connect(randBtn, &QPushButton::clicked, m_mainWindow, &MainWindow::randomVerse);
+    
+    navLayout->addWidget(prevBtn);
+    navLayout->addWidget(nextBtn);
+    navLayout->addWidget(randBtn);
+    utilLayout->addLayout(navLayout);
+
     QPushButton *copyBtn = new QPushButton(QIcon(iconPrefix + "copy.svg"), tr("Copy current verse to clipboard"), this);
     connect(copyBtn, &QPushButton::clicked, [this]() {
         QApplication::clipboard()->setText(m_mainWindow->currentVerseFull());
