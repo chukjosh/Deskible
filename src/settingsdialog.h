@@ -11,6 +11,7 @@
 #include <QRadioButton>
 #include <QButtonGroup>
 #include <QScrollArea>
+#include <QComboBox>
 
 class MainWindow;
 
