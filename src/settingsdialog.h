@@ -12,6 +12,7 @@
 #include <QButtonGroup>
 #include <QScrollArea>
 #include <QComboBox>
+#include "common.h"
 
 class MainWindow;
 
@@ -29,6 +30,7 @@ private slots:
     void onPickVerseColor();
     void onPickRefColor();
     void onThemeChanged(int index);
+    void reject() override;
 
 private:
     void applyStyle();

@@ -8,9 +8,7 @@
 #include <QFont>
 #include <QColor>
 #include "biblelocalreader.h"
-
-enum class Theme { System, Light, Dark };
-enum class SizeMode { Dynamic, Fixed };
+#include "common.h"
 
 class MainWindow : public QWidget
 {
