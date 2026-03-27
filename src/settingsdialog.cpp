@@ -20,7 +20,6 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
     // Auto-Switching
     QGroupBox *autoGroup = new QGroupBox(tr("Auto-Switching"), this);
-    autoGroup->setIcon(QIcon(":/icons/icons/auto.svg"));
     QVBoxLayout *autoLayout = new QVBoxLayout(autoGroup);
     m_autoSwitchCheck = new QCheckBox(tr("Automatically switch verses"), this);
     QHBoxLayout *intervalLayout = new QHBoxLayout();
@@ -37,7 +36,6 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
     // Appearance
     QGroupBox *appearanceGroup = new QGroupBox(tr("Appearance"), this);
-    appearanceGroup->setIcon(QIcon(":/icons/icons/color.svg"));
     QVBoxLayout *appLayout = new QVBoxLayout(appearanceGroup);
     
     QPushButton *fontBtn = new QPushButton(QIcon(":/icons/icons/font.svg"), tr("Choose Font..."), this);
@@ -77,7 +75,6 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
     // Bible File
     QGroupBox *fileGroup = new QGroupBox(tr("Bible File"), this);
-    fileGroup->setIcon(QIcon(":/icons/icons/bible.svg"));
     QVBoxLayout *fileLayout = new QVBoxLayout(fileGroup);
     fileLayout->addWidget(new QLabel(tr("King James Version (KJV)"), this));
     
@@ -98,7 +95,6 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
     // Startup
     QGroupBox *startupGroup = new QGroupBox(tr("Startup"), this);
-    startupGroup->setIcon(QIcon(":/icons/icons/startup.svg"));
     QVBoxLayout *startupLayout = new QVBoxLayout(startupGroup);
     m_startupCheck = new QCheckBox(tr("Launch Deskible at system startup"), this);
     startupLayout->addWidget(m_startupCheck);
