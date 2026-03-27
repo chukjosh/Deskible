@@ -27,11 +27,14 @@ MainWindow::MainWindow(QWidget *parent)
     if (!m_reader->openFile(m_biblePath)) {
         m_currentText = tr("⚠ File not found.\nRight-click → Settings to locate kjv.txt");
         m_currentRef = "";
+        qDebug() << "Deskible: Bible file not found at" << m_biblePath;
     } else {
         randomVerse();
+        qDebug() << "Deskible: Bible file loaded from" << m_biblePath;
     }
 
     applySettings();
+    qDebug() << "Deskible: Window initialized at" << pos() << "with size" << size();
 }
 
 MainWindow::~MainWindow()
@@ -162,6 +165,7 @@ void MainWindow::onAutoSwitchTimer()
 void MainWindow::updateWindowSize()
 {
     setFixedWidth(m_maxWidth);
+    setMinimumHeight(80); // Ensure window isn't 0-height
     adjustSize();
 }
 
