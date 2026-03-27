@@ -53,7 +53,16 @@ void MainWindow::loadSettings()
     m_refColor = QColor(settings.value("refColor", "#FFAAAAFF").toString());
     
     QString defaultPath = QCoreApplication::applicationDirPath() + "/bibleversions/kjv.txt";
-    m_biblePath = settings.value("filePath", defaultPath).toString();
+    QString alternatePath = QDir::currentPath() + "/bibleversions/kjv.txt";
+    QString sourcePath = QDir::currentPath() + "/../Deskible/bibleversions/kjv.txt"; // Common for CMake build dirs
+    
+    m_biblePath = settings.value("filePath", "").toString();
+    if (m_biblePath.isEmpty()) {
+        if (QFile::exists(defaultPath)) m_biblePath = defaultPath;
+        else if (QFile::exists(alternatePath)) m_biblePath = alternatePath;
+        else if (QFile::exists(sourcePath)) m_biblePath = sourcePath;
+        else m_biblePath = defaultPath; // Fallback to original
+    }
 
     QPoint defaultPos;
     if (settings.contains("position")) {
