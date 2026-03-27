@@ -7,7 +7,9 @@
 #include <QVector>
 #include <QFont>
 #include <QColor>
-#include <QVariantAnimation>
+#include <QPropertyAnimation>
+#include <QLabel>
+#include <QGraphicsDropShadowEffect>
 #include "biblelocalreader.h"
 #include "common.h"
 
@@ -122,6 +124,9 @@ private:
     bool m_hovered = false;
     QPoint m_dragPos;
     QVariantAnimation *m_fadeAnimation = nullptr;
+    QPropertyAnimation *m_sizeAnimation = nullptr;
+    QLabel *m_toastLabel = nullptr;
+    void showToast(const QString &msg);
 };
 
 #endif // MAINWINDOW_H

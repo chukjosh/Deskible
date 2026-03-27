@@ -51,7 +51,7 @@ private:
     QDoubleSpinBox *m_verseScaleSpin;
     QPushButton *m_accentBtn;
     QDoubleSpinBox *m_refScaleSpin;
-    QCheckBox *m_autoSwitchCheck;
+    ModernSwitch *m_autoSwitchCheck;
     QSpinBox *m_intervalSpin;
 
     QFont m_currentFont;

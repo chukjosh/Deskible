@@ -270,7 +270,15 @@ void MainWindow::updateWindowSize()
         }
 
         neededHeight = qBound(80, neededHeight, m_maxHeight);
-        setFixedHeight(neededHeight);
+        
+        // Animate size change
+        if (m_sizeAnimation) m_sizeAnimation->stop();
+        m_sizeAnimation = new QPropertyAnimation(this, "geometry");
+        m_sizeAnimation->setDuration(400);
+        m_sizeAnimation->setStartValue(geometry());
+        m_sizeAnimation->setEndValue(QRect(x(), y(), m_maxWidth, neededHeight));
+        m_sizeAnimation->setEasingCurve(QEasingCurve::OutBack);
+        m_sizeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
     } else {
         setFixedSize(m_maxWidth, m_maxHeight);
     }
@@ -361,19 +369,29 @@ void MainWindow::paintEvent(QPaintEvent *event)
     QFont vFont = m_verseFont;
     vFont.setPointSizeF(m_verseFont.pointSizeF() * m_verseScale);
     painter.setFont(vFont);
+    
+    // Modern Text Shadow (Subtle)
+    painter.setPen(QColor(0, 0, 0, 100)); // Darker shadow
+    painter.drawText(contentRect.translated(1, 1), Qt::AlignLeft | Qt::TextWordWrap, m_currentText);
+    
     painter.setPen(m_verseColor);
     painter.drawText(contentRect, Qt::AlignLeft | Qt::TextWordWrap, m_currentText);
 
     // Reference Text
     if (!m_currentRef.isEmpty()) {
-        QFont refFont = m_verseFont; // Base scale off original font
+        QFont refFont = m_verseFont; 
         refFont.setPointSizeF(m_verseFont.pointSizeF() * m_refScale);
         refFont.setItalic(true);
         painter.setFont(refFont);
-        painter.setPen(m_refColor);
         
-        QString refText = QString("%1  ·  %2").arg(m_currentRef, m_currentVersion);
-        painter.drawText(contentRect, Qt::AlignRight | Qt::AlignBottom, refText);
+        // Shadow for reference
+        painter.setPen(QColor(0, 0, 0, 80));
+        painter.drawText(contentRect.translated(1, 1), Qt::AlignRight | Qt::AlignBottom, 
+                         QString("%1  ·  %2").arg(m_currentRef, m_currentVersion));
+                         
+        painter.setPen(m_refColor);
+        painter.drawText(contentRect, Qt::AlignRight | Qt::AlignBottom, 
+                         QString("%1  ·  %2").arg(m_currentRef, m_currentVersion));
     }
 }
 
@@ -383,7 +401,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         // If clicking the bottom 30% area (where reference usually is), copy it
         if (event->pos().y() > height() * 0.7) {
             QApplication::clipboard()->setText(m_currentRef);
-            // Quick visual feedback? (Not yet)
+            showToast(tr("Copied: %1").arg(m_currentRef));
         }
         
         m_dragging = true;
@@ -450,6 +468,7 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
     menu.addSeparator();
     menu.addAction(QIcon(iconPrefix + "copy.svg"), tr("Copy Verse"), [this]() {
         QApplication::clipboard()->setText(currentVerseFull());
+        showToast(tr("Verse Copied!"));
     });
     menu.addSeparator();
     menu.addAction(QIcon(iconPrefix + "settings.svg"), tr("Settings"), [this]() {
@@ -504,6 +523,35 @@ void MainWindow::leaveEvent(QEvent *event)
         update();
     });
     m_fadeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void MainWindow::showToast(const QString &msg)
+{
+    if (!m_toastLabel) {
+        m_toastLabel = new QLabel(this);
+        m_toastLabel->setAlignment(Qt::AlignCenter);
+        m_toastLabel->setStyleSheet(
+            "background-color: rgba(30,30,50, 200); color: white; border-radius: 12px; "
+            "padding: 8px 16px; border: 1px solid rgba(85, 85, 255, 120); font-weight: bold;"
+        );
+    }
+    
+    m_toastLabel->setText(msg);
+    m_toastLabel->adjustSize();
+    m_toastLabel->move((width() - m_toastLabel->width())/2, (height() - m_toastLabel->height())/2);
+    m_toastLabel->show();
+    m_toastLabel->raise();
+    
+    // Animate opacity since labels don't support windowOpacity well as children
+    QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
+    m_toastLabel->setGraphicsEffect(eff);
+    QPropertyAnimation *toastAnim = new QPropertyAnimation(eff, "opacity");
+    toastAnim->setDuration(1500);
+    toastAnim->setStartValue(1.0);
+    toastAnim->setEndValue(0.0);
+    toastAnim->setEasingCurve(QEasingCurve::InExpo);
+    connect(toastAnim, &QPropertyAnimation::finished, m_toastLabel, &QLabel::hide);
+    toastAnim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 

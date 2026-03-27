@@ -10,6 +10,58 @@
 #include <QColorDialog>
 #include <QApplication>
 #include <QScrollArea> // Added for QScrollArea
+#include <QPainterPath>
+#include <QPropertyAnimation>
+
+// --- Modern Toggle Switch Component ---
+class ModernSwitch : public QAbstractButton {
+public:
+    ModernSwitch(QWidget *parent = nullptr) : QAbstractButton(parent) {
+        setCheckable(true);
+        setFixedSize(44, 22);
+        m_thumbPos = isChecked() ? 24 : 2;
+    }
+    
+    void paintEvent(QPaintEvent *) override {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing);
+        
+        QRect r = rect().adjusted(1, 1, -1, -1);
+        QColor trackCol = isChecked() ? QColor("#5555FF") : QColor(100, 100, 100, 100);
+        
+        p.setPen(Qt::NoPen);
+        p.setBrush(trackCol);
+        p.drawRoundedRect(r, 11, 11);
+        
+        p.setBrush(Qt::white);
+        p.drawEllipse(m_thumbPos, 3, 16, 16);
+    }
+
+    void nextCheckState() override {
+        QAbstractButton::nextCheckState();
+        animateThumb(isChecked());
+    }
+
+protected:
+    void animateThumb(bool checked) {
+        QVariantAnimation *anim = new QVariantAnimation(this);
+        anim->setDuration(200);
+        anim->setStartValue(m_thumbPos);
+        anim->setEndValue(checked ? 24 : 2);
+        anim->setEasingCurve(QEasingCurve::OutCubic);
+        connect(anim, &QVariantAnimation::valueChanged, [this](const QVariant &v){
+            m_thumbPos = v.toInt();
+            update();
+        });
+        anim->start(QAbstractAnimation::DeleteWhenStopped);
+    }
+
+    int thumbPos() const { return m_thumbPos; }
+    void setThumbPos(int p) { m_thumbPos = p; update(); }
+
+private:
+    int m_thumbPos;
+};
 
 SettingsDialog::SettingsDialog(MainWindow *parent)
     : QDialog(parent), m_mainWindow(parent)
@@ -64,17 +116,18 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     QString iconPrefix = isDark ? ":/icons/icons/white/" : ":/icons/icons/dark/";
 
     // Auto-Switching
-    QGroupBox *autoGroup = new QGroupBox(tr("Auto-Switching"), this);
+    QGroupBox *autoGroup = new QGroupBox(tr("    Auto-Verse Switcher"), this);
     QVBoxLayout *autoLayout = new QVBoxLayout(autoGroup);
     
     QHBoxLayout *autoHeaderLayout = new QHBoxLayout();
     QLabel *autoIcon = new QLabel(this);
     autoIcon->setPixmap(QIcon(iconPrefix + "auto.svg").pixmap(16, 16));
     autoHeaderLayout->addWidget(autoIcon);
-    autoHeaderLayout->addWidget(new QLabel(tr("Auto-Switching"), this));
+    autoHeaderLayout->addWidget(new QLabel(tr("Enable Automatic Refresh"), this));
+    autoHeaderLayout->addStretch();
+    m_autoSwitchCheck = new ModernSwitch(this);
+    autoHeaderLayout->addWidget(m_autoSwitchCheck);
     autoLayout->addLayout(autoHeaderLayout);
-    
-    m_autoSwitchCheck = new QCheckBox(tr("Automatically switch verses"), this);
     
     QHBoxLayout *intervalLayout = new QHBoxLayout();
     QLabel *intervalIcon = new QLabel(this);
@@ -87,7 +140,6 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     m_intervalSpin = new QSpinBox(this);
     m_intervalSpin->setRange(5, 86400);
     intervalLayout->addWidget(m_intervalSpin);
-    autoLayout->addWidget(m_autoSwitchCheck);
     autoLayout->addLayout(intervalLayout);
     mainLayout->addWidget(autoGroup);
 
@@ -166,12 +218,12 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     QGroupBox *sizingGroup = new QGroupBox(tr("Layout & Sizing"), this);
     QVBoxLayout *sizingLayout = new QVBoxLayout(sizingGroup);
 
-    QHBoxLayout *themeHeaderLayout = new QHBoxLayout();
+    QHBoxLayout *sizingHeaderLayout = new QHBoxLayout();
     QLabel *sizingIcon = new QLabel(this);
     sizingIcon->setPixmap(QIcon(iconPrefix + "width.svg").pixmap(16, 16));
-    themeHeaderLayout->addWidget(sizingIcon);
-    themeHeaderLayout->addWidget(new QLabel(tr("Configure dimensions"), this));
-    sizingLayout->addLayout(themeHeaderLayout);
+    sizingHeaderLayout->addWidget(sizingIcon);
+    sizingHeaderLayout->addWidget(new QLabel(tr("Configure dimensions"), this));
+    sizingLayout->addLayout(sizingHeaderLayout);
 
     QHBoxLayout *modeLayout = new QHBoxLayout();
     m_sizeModeGroup = new QButtonGroup(this);
@@ -226,7 +278,7 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     mainLayout->addWidget(fileGroup);
 
     // Startup
-    QGroupBox *startupGroup = new QGroupBox(tr("Startup"), this);
+    QGroupBox *startupGroup = new QGroupBox(tr("    System Integration"), this);
     QVBoxLayout *startupLayout = new QVBoxLayout(startupGroup);
     
     QHBoxLayout *startupHeaderLayout = new QHBoxLayout();
@@ -236,8 +288,12 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     startupHeaderLayout->addWidget(new QLabel(tr("Autostart"), this));
     startupLayout->addLayout(startupHeaderLayout);
     
-    m_startupCheck = new QCheckBox(tr("Launch Deskible at system startup"), this);
-    startupLayout->addWidget(m_startupCheck);
+    m_startupCheck = new ModernSwitch(this);
+    QHBoxLayout *startH = new QHBoxLayout();
+    startH->addWidget(new QLabel(tr("Start Deskible with Windows"), this));
+    startH->addStretch();
+    startH->addWidget(m_startupCheck);
+    startupLayout->addLayout(startH);
     mainLayout->addWidget(startupGroup);
 
     // Utilities
@@ -499,47 +555,47 @@ void SettingsDialog::applyStyle()
 
     if (isDark) {
         setStyleSheet(QString(
-            "SettingsDialog { background-color: #12122a; color: #e8e8f8; }"
-            "QWidget#scrollContent { background-color: #12122a; }"
-            "QWidget#settingsHeader { border-bottom: 2px solid %1; margin-bottom: 10px; }"
-            "QScrollArea { background-color: #12122a; border: none; }"
-            "QGroupBox { border: 1px solid #333355; border-radius: 10px; margin-top: 15px; padding-top: 25px; color: #a0a0ff; font-weight: bold; font-size: 14px; }"
-            "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 5px; }"
+            "SettingsDialog { background-color: #0b0b1a; color: #e8e8f8; }"
+            "QWidget#scrollContent { background-color: #0b0b1a; }"
+            "QWidget#settingsHeader { "
+            "  background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 %1, stop:1 #1a1a2e); "
+            "  border-bottom: 3px solid %1; margin-bottom: 0px; border-bottom-left-radius: 20px; "
+            "}"
+            "QScrollArea { background-color: #0b0b1a; border: none; }"
+            "QGroupBox { border: 1px solid #222244; background-color: #12122a; border-radius: 12px; margin-top: 15px; padding-top: 25px; color: #a0a0ff; font-weight: bold; font-size: 14px; }"
+            "QGroupBox::title { subcontrol-origin: margin; left: 15px; padding: 5px; }"
             "QLabel { color: #e8e8f8; background: transparent; }"
-            "QPushButton { background-color: #2a2a5e; color: white; border-radius: 6px; padding: 8px 16px; border: 1px solid #333355; font-weight: bold; }"
-            "QPushButton:hover { background-color: #3a3a7e; border: 1px solid %1; }"
-            "QLineEdit { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
-            "QSpinBox { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
-            "QComboBox { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
+            "QPushButton { background-color: #1a1a4a; color: white; border-radius: 8px; padding: 10px 20px; border: 1px solid #333366; font-weight: bold; }"
+            "QPushButton:hover { background-color: #2a2a6a; border: 1px solid %1; }"
+            "QPushButton#resetBtn { background-color: transparent; border: 1px solid #444; color: #888; }"
+            "QPushButton#resetBtn:hover { color: #ff6666; border: 1px solid #ff6666; }"
+            "QLineEdit, QSpinBox, QComboBox { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 8px; padding: 8px; }"
             "QComboBox::drop-down { border: 0px; }"
             "QComboBox::down-arrow { image: url(:/icons/icons/white/next.svg); width: 12px; height: 12px; }"
-            "QCheckBox { color: #e8e8f8; spacing: 8px; }"
-            "QRadioButton { color: #e8e8f8; spacing: 8px; }"
-            "QScrollBar:vertical { border: none; background: #12122a; width: 10px; margin: 0px; }"
-            "QScrollBar::handle:vertical { background: %1; min-height: 20px; border-radius: 5px; opacity: 0.6; }"
-            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
+            "QScrollBar:vertical { border: none; background: transparent; width: 8px; margin: 0px; }"
+            "QScrollBar::handle:vertical { background: %1; min-height: 30px; border-radius: 4px; }"
         ).arg(accentColorHex));
     } else {
         setStyleSheet(QString(
-            "SettingsDialog { background-color: #f5f5fa; color: #1a1a2e; }"
-            "QWidget#scrollContent { background-color: #f5f5fa; }"
-            "QWidget#settingsHeader { border-bottom: 2px solid %1; margin-bottom: 10px; }"
-            "QScrollArea { background-color: #f5f5fa; border: none; }"
-            "QGroupBox { border: 1px solid #d0d0df; border-radius: 10px; margin-top: 15px; padding-top: 25px; color: #2a2a5e; font-weight: bold; font-size: 14px; }"
-            "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 5px; }"
+            "SettingsDialog { background-color: #f8f8ff; color: #1a1a2e; }"
+            "QWidget#scrollContent { background-color: #f8f8ff; }"
+            "QWidget#settingsHeader { "
+            "  background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 %1, stop:1 #ffffff); "
+            "  border-bottom: 3px solid %1; margin-bottom: 0px; border-bottom-left-radius: 20px; "
+            "}"
+            "QScrollArea { background-color: #f8f8ff; border: none; }"
+            "QGroupBox { border: 1px solid #e0e0ef; background-color: #ffffff; border-radius: 12px; margin-top: 15px; padding-top: 25px; color: #2a2a5e; font-weight: bold; font-size: 14px; }"
+            "QGroupBox::title { subcontrol-origin: margin; left: 15px; padding: 5px; }"
             "QLabel { color: #1a1a2e; background: transparent; }"
-            "QPushButton { background-color: #ffffff; color: #2a2a5e; border-radius: 6px; padding: 8px 16px; border: 1px solid #d0d0df; font-weight: bold; }"
-            "QPushButton:hover { background-color: #f0f0ff; border: 1px solid %1; }"
-            "QLineEdit { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
-            "QSpinBox { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
-            "QComboBox { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
+            "QPushButton { background-color: #ffffff; color: #2a2a5e; border-radius: 8px; padding: 10px 20px; border: 1px solid #e0e0ef; font-weight: bold; }"
+            "QPushButton:hover { background-color: #f5f5ff; border: 1px solid %1; }"
+            "QPushButton#resetBtn { background-color: transparent; border: 1px solid #ccc; color: #999; }"
+            "QPushButton#resetBtn:hover { color: #ff5555; border: 1px solid #ff5555; }"
+            "QLineEdit, QSpinBox, QComboBox { background-color: #ffffff; color: #1a1a2e; border: 1px solid #e0e0ef; border-radius: 8px; padding: 8px; }"
             "QComboBox::drop-down { border: 0px; }"
             "QComboBox::down-arrow { image: url(:/icons/icons/dark/next.svg); width: 12px; height: 12px; }"
-            "QCheckBox { color: #1a1a2e; spacing: 8px; }"
-            "QRadioButton { color: #1a1a2e; spacing: 8px; }"
-            "QScrollBar:vertical { border: none; background: #f5f5fa; width: 10px; margin: 0px; }"
-            "QScrollBar::handle:vertical { background: %1; min-height: 20px; border-radius: 5px; }"
-            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
+            "QScrollBar:vertical { border: none; background: transparent; width: 8px; margin: 0px; }"
+            "QScrollBar::handle:vertical { background: %1; min-height: 30px; border-radius: 4px; }"
         ).arg(accentColorHex));
     }
 }
