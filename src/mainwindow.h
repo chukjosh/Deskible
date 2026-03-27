@@ -9,6 +9,9 @@
 #include <QColor>
 #include "biblelocalreader.h"
 
+enum class Theme { System, Light, Dark };
+enum class SizeMode { Dynamic, Fixed };
+
 class MainWindow : public QWidget
 {
     Q_OBJECT
@@ -26,6 +29,9 @@ public:
     void setSwitchInterval(int seconds);
     void setOpacity(double opacity);
     void setMaxWidth(int width);
+    void setMaxHeight(int height);
+    void setTheme(Theme theme);
+    void setSizeMode(SizeMode mode);
     void setVerseFont(const QFont &font);
     void setVerseColor(const QColor &color);
     void setRefColor(const QColor &color);
@@ -43,6 +49,9 @@ public:
     int switchInterval() const { return m_switchInterval; }
     double opacityValue() const { return m_opacity; }
     int maxWidthValue() const { return m_maxWidth; }
+    int maxHeightValue() const { return m_maxHeight; }
+    Theme theme() const { return m_theme; }
+    SizeMode sizeMode() const { return m_sizeMode; }
     QFont verseFont() const { return m_verseFont; }
     QColor verseColor() const { return m_verseColor; }
     QColor refColor() const { return m_refColor; }
@@ -82,8 +91,11 @@ private:
     // Settings
     bool m_autoSwitch = true;
     int m_switchInterval = 60;
-    double m_opacity = 0.92;
+    double m_opacity = 0.75;
     int m_maxWidth = 420;
+    int m_maxHeight = 350;
+    Theme m_theme = Theme::System;
+    SizeMode m_sizeMode = SizeMode::Dynamic;
     QFont m_verseFont;
     QColor m_verseColor;
     QColor m_refColor;

@@ -8,6 +8,9 @@
 #include <QLabel>
 #include <QFont>
 #include <QColor>
+#include <QComboBox>
+#include <QRadioButton>
+#include <QButtonGroup>
 
 class MainWindow;
 
@@ -27,18 +30,20 @@ private slots:
 
 private:
     void applyStyle();
+    void refreshIcons();
     void loadCurrentValues();
 
     MainWindow *m_mainWindow;
 
-    QCheckBox *m_autoSwitchCheck;
-    QSpinBox *m_intervalSpin;
-    
+    QComboBox *m_themeCombo;
+    QButtonGroup *m_sizeModeGroup;
+
     QFont m_currentFont;
     QColor m_currentVerseColor;
     QColor m_currentRefColor;
     QSpinBox *m_opacitySpin;
     QSpinBox *m_maxWidthSpin;
+    QSpinBox *m_maxHeightSpin;
 
     QLineEdit *m_pathEdit;
     QLabel *m_statusLabel;

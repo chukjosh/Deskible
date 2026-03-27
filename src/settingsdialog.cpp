@@ -22,9 +22,13 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     QGroupBox *autoGroup = new QGroupBox(tr("Auto-Switching"), this);
     QVBoxLayout *autoLayout = new QVBoxLayout(autoGroup);
     m_autoSwitchCheck = new QCheckBox(tr("Automatically switch verses"), this);
+    
     QHBoxLayout *intervalLayout = new QHBoxLayout();
     QLabel *intervalIcon = new QLabel(this);
-    intervalIcon->setPixmap(QIcon(":/icons/icons/interval.svg").pixmap(16, 16));
+    // Initial icon - will be refreshed in refreshIcons()
+    intervalIcon->setPixmap(QIcon(":/icons/icons/white/interval.svg").pixmap(16, 16));
+    intervalIcon->setObjectName("intervalIcon");
+    
     intervalLayout->addWidget(intervalIcon);
     intervalLayout->addWidget(new QLabel(tr("Interval (seconds):"), this));
     m_intervalSpin = new QSpinBox(this);
@@ -55,23 +59,53 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     QLabel *opacityIcon = new QLabel(this);
     opacityIcon->setPixmap(QIcon(":/icons/icons/opacity.svg").pixmap(16, 16));
     opacityLayout->addWidget(opacityIcon);
-    opacityLayout->addWidget(new QLabel(tr("Opacity (%):"), this));
+    opacityLayout->addWidget(new QLabel(tr("Background Opacity (%):"), this));
     m_opacitySpin = new QSpinBox(this);
-    m_opacitySpin->setRange(20, 100);
+    m_opacitySpin->setRange(0, 100);
     opacityLayout->addWidget(m_opacitySpin);
     appLayout->addLayout(opacityLayout);
 
-    QHBoxLayout *widthLayout = new QHBoxLayout();
-    QLabel *widthIcon = new QLabel(this);
-    widthIcon->setPixmap(QIcon(":/icons/icons/width.svg").pixmap(16, 16));
-    widthLayout->addWidget(widthIcon);
-    widthLayout->addWidget(new QLabel(tr("Max Width (px):"), this));
-    m_maxWidthSpin = new QSpinBox(this);
-    m_maxWidthSpin->setRange(200, 800);
-    widthLayout->addWidget(m_maxWidthSpin);
-    appLayout->addLayout(widthLayout);
+    QHBoxLayout *themeLayout = new QHBoxLayout();
+    themeLayout->addWidget(new QLabel(tr("Theme:"), this));
+    m_themeCombo = new QComboBox(this);
+    m_themeCombo->addItem(tr("Follow System"), 0);
+    m_themeCombo->addItem(tr("Dark Mode"), 1);
+    m_themeCombo->addItem(tr("Light Mode"), 2);
+    themeLayout->addWidget(m_themeCombo);
+    appLayout->addLayout(themeLayout);
 
     mainLayout->addWidget(appearanceGroup);
+
+    // Layout & Sizing
+    QGroupBox *sizingGroup = new QGroupBox(tr("Layout & Sizing"), this);
+    sizingGroup->setIcon(QIcon(":/icons/icons/width.svg"));
+    QVBoxLayout *sizingLayout = new QVBoxLayout(sizingGroup);
+
+    QHBoxLayout *modeLayout = new QHBoxLayout();
+    m_sizeModeGroup = new QButtonGroup(this);
+    QRadioButton *dynamicBtn = new QRadioButton(tr("Dynamic (fit content)"), this);
+    QRadioButton *fixedBtn = new QRadioButton(tr("Fixed Size"), this);
+    m_sizeModeGroup->addButton(dynamicBtn, 0);
+    m_sizeModeGroup->addButton(fixedBtn, 1);
+    modeLayout->addWidget(dynamicBtn);
+    modeLayout->addWidget(fixedBtn);
+    sizingLayout->addLayout(modeLayout);
+
+    QHBoxLayout *widthLayout = new QHBoxLayout();
+    widthLayout->addWidget(new QLabel(tr("Max Width (px):"), this));
+    m_maxWidthSpin = new QSpinBox(this);
+    m_maxWidthSpin->setRange(200, 1200);
+    widthLayout->addWidget(m_maxWidthSpin);
+    sizingLayout->addLayout(widthLayout);
+
+    QHBoxLayout *heightLayout = new QHBoxLayout();
+    heightLayout->addWidget(new QLabel(tr("Max Height (px):"), this));
+    m_maxHeightSpin = new QSpinBox(this);
+    m_maxHeightSpin->setRange(100, 1000);
+    heightLayout->addWidget(m_maxHeightSpin);
+    sizingLayout->addLayout(heightLayout);
+
+    mainLayout->addWidget(sizingGroup);
 
     // Bible File
     QGroupBox *fileGroup = new QGroupBox(tr("Bible File"), this);
@@ -113,6 +147,33 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
     loadCurrentValues();
     applyStyle();
+    
+    // Refresh icons based on the theme after loading values
+    refreshIcons();
+}
+
+void SettingsDialog::refreshIcons()
+{
+    bool isDark = true;
+    if (m_mainWindow->theme() == Theme::Dark) isDark = true;
+    else if (m_mainWindow->theme() == Theme::Light) isDark = false;
+    else {
+        QPalette p = qApp->palette();
+        isDark = p.color(QPalette::WindowText).lightness() > p.color(QPalette::Window).lightness();
+    }
+    QString iconPrefix = isDark ? ":/icons/icons/white/" : ":/icons/icons/dark/";
+
+    // We need to re-set icons for all buttons and labels that use them
+    // This requires keeping pointers or finding children. 
+    // For simplicity, I'll update the most important ones or use findChildren.
+    for (auto btn : findChildren<QPushButton*>()) {
+        QString text = btn->text().lowered();
+        if (text.contains("font")) btn->setIcon(QIcon(iconPrefix + "font.svg"));
+        else if (text.contains("color")) btn->setIcon(QIcon(iconPrefix + "color.svg"));
+        else if (text.contains("browse")) btn->setIcon(QIcon(iconPrefix + "path.svg"));
+        else if (text.contains("ok")) btn->setIcon(QIcon(iconPrefix + "save.svg"));
+        else if (text.contains("cancel")) btn->setIcon(QIcon(iconPrefix + "cancel.svg"));
+    }
 }
 
 void SettingsDialog::loadCurrentValues()
@@ -124,6 +185,14 @@ void SettingsDialog::loadCurrentValues()
     m_currentRefColor = m_mainWindow->refColor();
     m_opacitySpin->setValue(static_cast<int>(m_mainWindow->opacityValue() * 100));
     m_maxWidthSpin->setValue(m_mainWindow->maxWidthValue());
+    m_maxHeightSpin->setValue(m_mainWindow->maxHeightValue());
+    m_themeCombo->setCurrentIndex(static_cast<int>(m_mainWindow->theme()));
+    
+    if (m_mainWindow->sizeMode() == SizeMode::Dynamic)
+        m_sizeModeGroup->button(0)->setChecked(true);
+    else
+        m_sizeModeGroup->button(1)->setChecked(true);
+
     m_pathEdit->setText(m_mainWindow->biblePath());
     m_startupCheck->setChecked(StartupManager::isStartupEnabled());
 }
@@ -172,6 +241,9 @@ void SettingsDialog::onAccepted()
     m_mainWindow->setRefColor(m_currentRefColor);
     m_mainWindow->setOpacity(m_opacitySpin->value() / 100.0);
     m_mainWindow->setMaxWidth(m_maxWidthSpin->value());
+    m_mainWindow->setMaxHeight(m_maxHeightSpin->value());
+    m_mainWindow->setTheme(static_cast<Theme>(m_themeCombo->currentIndex()));
+    m_mainWindow->setSizeMode(m_sizeModeGroup->checkedId() == 0 ? SizeMode::Dynamic : SizeMode::Fixed);
     m_mainWindow->setBiblePath(m_pathEdit->text());
     
     StartupManager::setStartupEnabled(m_startupCheck->isChecked());
@@ -183,15 +255,45 @@ void SettingsDialog::onAccepted()
 
 void SettingsDialog::applyStyle()
 {
-    setStyleSheet(
-        "QDialog { background-color: #12122a; color: #e8e8f8; }"
-        "QGroupBox { border: 1px solid #333355; border-radius: 8px; margin-top: 10px; padding-top: 10px; color: #e8e8f8; font-weight: bold; }"
-        "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 3px; }"
-        "QLabel { color: #e8e8f8; }"
-        "QPushButton { background-color: #2a2a5e; color: white; border-radius: 4px; padding: 6px 12px; border: 1px solid #333355; }"
-        "QPushButton:hover { background-color: #3a3a7e; }"
-        "QLineEdit { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 4px; padding: 4px; }"
-        "QSpinBox { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 4px; padding: 4px; }"
-        "QCheckBox { color: #e8e8f8; }"
-    );
+    bool isDark = true;
+    if (m_mainWindow->theme() == Theme::Dark) isDark = true;
+    else if (m_mainWindow->theme() == Theme::Light) isDark = false;
+    else {
+        QPalette p = qApp->palette();
+        isDark = p.color(QPalette::WindowText).lightness() > p.color(QPalette::Window).lightness();
+    }
+
+    if (isDark) {
+        setStyleSheet(
+            "QDialog { background-color: #12122a; color: #e8e8f8; }"
+            "QGroupBox { border: 1px solid #333355; border-radius: 10px; margin-top: 15px; padding-top: 15px; color: #a0a0ff; font-weight: bold; font-size: 14px; }"
+            "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 5px; }"
+            "QLabel { color: #e8e8f8; }"
+            "QPushButton { background-color: #2a2a5e; color: white; border-radius: 6px; padding: 8px 16px; border: 1px solid #333355; font-weight: bold; }"
+            "QPushButton:hover { background-color: #3a3a7e; border: 1px solid #5555ff; }"
+            "QLineEdit { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
+            "QSpinBox { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
+            "QComboBox { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
+            "QComboBox::drop-down { border: 0px; }"
+            "QComboBox::down-arrow { image: url(:/icons/icons/white/next.svg); width: 12px; height: 12px; }"
+            "QCheckBox { color: #e8e8f8; spacing: 8px; }"
+            "QRadioButton { color: #e8e8f8; spacing: 8px; }"
+        );
+    } else {
+        setStyleSheet(
+            "QDialog { background-color: #f5f5fa; color: #1a1a2e; }"
+            "QGroupBox { border: 1px solid #d0d0df; border-radius: 10px; margin-top: 15px; padding-top: 15px; color: #2a2a5e; font-weight: bold; font-size: 14px; }"
+            "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 5px; }"
+            "QLabel { color: #1a1a2e; }"
+            "QPushButton { background-color: #ffffff; color: #2a2a5e; border-radius: 6px; padding: 8px 16px; border: 1px solid #d0d0df; font-weight: bold; }"
+            "QPushButton:hover { background-color: #f0f0ff; border: 1px solid #5555ff; }"
+            "QLineEdit { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
+            "QSpinBox { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
+            "QComboBox { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
+            "QComboBox::drop-down { border: 0px; }"
+            "QComboBox::down-arrow { image: url(:/icons/icons/dark/next.svg); width: 12px; height: 12px; }"
+            "QCheckBox { color: #1a1a2e; spacing: 8px; }"
+            "QRadioButton { color: #1a1a2e; spacing: 8px; }"
+        );
+    }
 }

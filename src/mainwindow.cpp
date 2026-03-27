@@ -16,6 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_NoSystemBackground);
+    
+    // Connect to system palette changes
+    connect(qApp, &QGuiApplication::paletteChanged, this, [this]() {
+        if (m_theme == Theme::System) applySettings();
+    });
 
     m_reader = new BibleLocalReader(this);
     m_timer = new QTimer(this);
@@ -46,8 +51,12 @@ void MainWindow::loadSettings()
     QSettings settings("Deskible", "Deskible");
     m_switchInterval = settings.value("switchInterval", 60).toInt();
     m_autoSwitch = settings.value("autoSwitch", true).toBool();
-    m_opacity = settings.value("opacity", 0.92).toDouble();
+    m_opacity = settings.value("opacity", 0.75).toDouble();
     m_maxWidth = settings.value("maxWidth", 420).toInt();
+    m_maxHeight = settings.value("maxHeight", 350).toInt();
+    m_theme = static_cast<Theme>(settings.value("theme", 0).toInt());
+    m_sizeMode = static_cast<SizeMode>(settings.value("sizeMode", 0).toInt());
+    
     m_verseFont = settings.value("verseFont", QFont("Georgia", 13)).value<QFont>();
     m_verseColor = QColor(settings.value("verseColor", "#FFFFFFFF").toString());
     m_refColor = QColor(settings.value("refColor", "#FFAAAAFF").toString());
@@ -80,6 +89,9 @@ void MainWindow::saveSettings()
     settings.setValue("autoSwitch", m_autoSwitch);
     settings.setValue("opacity", m_opacity);
     settings.setValue("maxWidth", m_maxWidth);
+    settings.setValue("maxHeight", m_maxHeight);
+    settings.setValue("theme", static_cast<int>(m_theme));
+    settings.setValue("sizeMode", static_cast<int>(m_sizeMode));
     settings.setValue("verseFont", m_verseFont);
     settings.setValue("verseColor", m_verseColor.name(QColor::HexArgb));
     settings.setValue("refColor", m_refColor.name(QColor::HexArgb));
@@ -89,7 +101,9 @@ void MainWindow::saveSettings()
 
 void MainWindow::applySettings()
 {
-    setWindowOpacity(m_opacity);
+    // Do NOT call setWindowOpacity, we want text to stay 100% visible.
+    // We will use m_opacity in the paintEvent for the background only.
+    setWindowOpacity(1.0);
     
     if (m_autoSwitch) {
         m_timer->start(m_switchInterval * 1000);
@@ -105,6 +119,9 @@ void MainWindow::setAutoSwitch(bool enabled) { m_autoSwitch = enabled; }
 void MainWindow::setSwitchInterval(int seconds) { m_switchInterval = seconds; }
 void MainWindow::setOpacity(double opacity) { m_opacity = opacity; }
 void MainWindow::setMaxWidth(int width) { m_maxWidth = width; }
+void MainWindow::setMaxHeight(int height) { m_maxHeight = height; }
+void MainWindow::setTheme(Theme theme) { m_theme = theme; }
+void MainWindow::setSizeMode(SizeMode mode) { m_sizeMode = mode; }
 void MainWindow::setVerseFont(const QFont &font) { m_verseFont = font; }
 void MainWindow::setVerseColor(const QColor &color) { m_verseColor = color; }
 void MainWindow::setRefColor(const QColor &color) { m_refColor = color; }
@@ -173,9 +190,14 @@ void MainWindow::onAutoSwitchTimer()
 
 void MainWindow::updateWindowSize()
 {
-    setFixedWidth(m_maxWidth);
-    setMinimumHeight(80); // Ensure window isn't 0-height
-    adjustSize();
+    if (m_sizeMode == SizeMode::Dynamic) {
+        setFixedWidth(m_maxWidth);
+        setMinimumHeight(80);
+        setMaximumHeight(m_maxHeight);
+        adjustSize();
+    } else {
+        setFixedSize(m_maxWidth, m_maxHeight);
+    }
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -187,22 +209,43 @@ void MainWindow::paintEvent(QPaintEvent *event)
     int margin = 10;
     QRect rect = this->rect().adjusted(margin, margin, -margin, -margin);
 
+    // Background logic based on Theme and Opacity
+    bool isDark = true;
+    if (m_theme == Theme::Dark) isDark = true;
+    else if (m_theme == Theme::Light) isDark = false;
+    else {
+        // System theme detection
+        QPalette p = qApp->palette();
+        isDark = p.color(QPalette::WindowText).lightness() > p.color(QPalette::Window).lightness();
+    }
+
+    QColor bgColor = isDark ? QColor(20, 20, 35) : QColor(245, 245, 250);
+    bgColor.setAlphaF(m_opacity);
+    
+    QColor shadowColor = isDark ? QColor(0, 0, 0) : QColor(100, 100, 120);
+    int shadowAlpha = isDark ? 12 : 8;
+
     // Drop shadow
     for (int i = 6; i >= 1; --i) {
         painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(0, 0, 0, 12 * i));
-        painter.drawRoundedRect(rect.adjusted(-i, -i, i, i), 14 + i, 14 + i);
+        painter.setBrush(QColor(shadowColor.red(), shadowColor.green(), shadowColor.blue(), shadowAlpha * i));
+        painter.drawRoundedRect(rect.adjusted(-i, -i, i, i), 16 + i, 16 + i);
     }
 
     // Background
-    painter.setBrush(QColor(10, 10, 20, 175));
-    painter.drawRoundedRect(rect, 14, 14);
+    painter.setBrush(bgColor);
+    painter.drawRoundedRect(rect, 16, 16);
 
-    // Top highlight
+    // Subtle edge highlight
+    painter.setPen(QPen(isDark ? QColor(255, 255, 255, 30) : QColor(0, 0, 0, 20), 1));
+    painter.setBrush(Qt::NoPen);
+    painter.drawRoundedRect(rect, 16, 16);
+
+    // Top subtle highlight (glass effect)
     QPainterPath highlight;
-    highlight.moveTo(rect.left() + 14, rect.top() + 1);
-    highlight.lineTo(rect.right() - 14, rect.top() + 1);
-    painter.setPen(QPen(QColor(255, 255, 255, 50), 1));
+    highlight.moveTo(rect.left() + 16, rect.top() + 1);
+    highlight.lineTo(rect.right() - 16, rect.top() + 1);
+    painter.setPen(QPen(isDark ? QColor(255, 255, 255, 45) : QColor(255, 255, 255, 120), 1));
     painter.drawPath(highlight);
 
     // Content
@@ -264,22 +307,40 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *event)
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
-    menu.setStyleSheet(
-        "QMenu { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 8px; padding: 4px; }"
-        "QMenu::item { padding: 6px 20px; border-radius: 4px; }"
-        "QMenu::item:selected { background-color: #2a2a5e; }"
-    );
+    bool isDark = true;
+    if (m_theme == Theme::Dark) isDark = true;
+    else if (m_theme == Theme::Light) isDark = false;
+    else {
+        QPalette p = qApp->palette();
+        isDark = p.color(QPalette::WindowText).lightness() > p.color(QPalette::Window).lightness();
+    }
 
-    menu.addAction(QIcon(":/icons/icons/next.svg"), tr("Next Verse"), this, &MainWindow::nextVerse);
-    menu.addAction(QIcon(":/icons/icons/previous.svg"), tr("Previous Verse"), this, &MainWindow::previousVerse);
-    menu.addAction(QIcon(":/icons/icons/random.svg"), tr("Random Verse"), this, &MainWindow::randomVerse);
+    if (isDark) {
+        menu.setStyleSheet(
+            "QMenu { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 8px; padding: 4px; }"
+            "QMenu::item { padding: 6px 20px; border-radius: 4px; }"
+            "QMenu::item:selected { background-color: #2a2a5e; }"
+        );
+    } else {
+        menu.setStyleSheet(
+            "QMenu { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 8px; padding: 4px; }"
+            "QMenu::item { padding: 6px 20px; border-radius: 4px; }"
+            "QMenu::item:selected { background-color: #f0f0ff; }"
+        );
+    }
+
+    QString iconPrefix = isDark ? ":/icons/icons/white/" : ":/icons/icons/dark/";
+
+    menu.addAction(QIcon(iconPrefix + "next.svg"), tr("Next Verse"), this, &MainWindow::nextVerse);
+    menu.addAction(QIcon(iconPrefix + "previous.svg"), tr("Previous Verse"), this, &MainWindow::previousVerse);
+    menu.addAction(QIcon(iconPrefix + "random.svg"), tr("Random Verse"), this, &MainWindow::randomVerse);
     menu.addSeparator();
-    menu.addAction(QIcon(":/icons/icons/settings.svg"), tr("Settings"), [this]() {
+    menu.addAction(QIcon(iconPrefix + "settings.svg"), tr("Settings"), [this]() {
         SettingsDialog dialog(this);
         dialog.exec();
     });
     menu.addSeparator();
-    menu.addAction(QIcon(":/icons/icons/close.svg"), tr("Quit"), qApp, &QCoreApplication::quit);
+    menu.addAction(QIcon(iconPrefix + "close.svg"), tr("Quit"), qApp, &QCoreApplication::quit);
 
     menu.exec(event->globalPos());
 }
