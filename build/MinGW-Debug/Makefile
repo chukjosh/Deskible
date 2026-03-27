@@ -46,10 +46,10 @@ RM = C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible
+CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug
+CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -74,56 +74,11 @@ rebuild_cache:
 rebuild_cache\fast: rebuild_cache
 .PHONY : rebuild_cache\fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components\fast: list_install_components
-.PHONY : list_install_components\fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install\fast: preinstall\fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -P cmake_install.cmake
-.PHONY : install\fast
-
-# Special rule for the target install/local
-install\local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install\local
-
-# Special rule for the target install/local
-install\local\fast: preinstall\fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install\local\fast
-
-# Special rule for the target install/strip
-install\strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install\strip
-
-# Special rule for the target install/strip
-install\strip\fast: preinstall\fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install\strip\fast
-
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -189,6 +144,30 @@ Deskible_autogen\fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible_autogen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible_autogen.dir\build
 .PHONY : Deskible_autogen\fast
 
+Deskible_autogen\3YJK5W5UP7\qrc_resources.obj: Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj
+.PHONY : Deskible_autogen\3YJK5W5UP7\qrc_resources.obj
+
+# target to build an object file
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj
+.PHONY : Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj
+
+Deskible_autogen\3YJK5W5UP7\qrc_resources.i: Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.i
+.PHONY : Deskible_autogen\3YJK5W5UP7\qrc_resources.i
+
+# target to preprocess a source file
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.i
+.PHONY : Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.i
+
+Deskible_autogen\3YJK5W5UP7\qrc_resources.s: Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.s
+.PHONY : Deskible_autogen\3YJK5W5UP7\qrc_resources.s
+
+# target to generate assembly for a file
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.s
+.PHONY : Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.s
+
 Deskible_autogen\mocs_compilation.obj: Deskible_autogen\mocs_compilation.cpp.obj
 .PHONY : Deskible_autogen\mocs_compilation.obj
 
@@ -213,53 +192,149 @@ Deskible_autogen\mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.s
 .PHONY : Deskible_autogen\mocs_compilation.cpp.s
 
-main.obj: main.cpp.obj
-.PHONY : main.obj
+src\biblelocalreader.obj: src\biblelocalreader.cpp.obj
+.PHONY : src\biblelocalreader.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\main.cpp.obj
-.PHONY : main.cpp.obj
+src\biblelocalreader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj
+.PHONY : src\biblelocalreader.cpp.obj
 
-main.i: main.cpp.i
-.PHONY : main.i
+src\biblelocalreader.i: src\biblelocalreader.cpp.i
+.PHONY : src\biblelocalreader.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\main.cpp.i
-.PHONY : main.cpp.i
+src\biblelocalreader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.i
+.PHONY : src\biblelocalreader.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+src\biblelocalreader.s: src\biblelocalreader.cpp.s
+.PHONY : src\biblelocalreader.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\main.cpp.s
-.PHONY : main.cpp.s
+src\biblelocalreader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.s
+.PHONY : src\biblelocalreader.cpp.s
 
-mainwindow.obj: mainwindow.cpp.obj
-.PHONY : mainwindow.obj
+src\main.obj: src\main.cpp.obj
+.PHONY : src\main.obj
 
 # target to build an object file
-mainwindow.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\mainwindow.cpp.obj
-.PHONY : mainwindow.cpp.obj
+src\main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\main.cpp.obj
+.PHONY : src\main.cpp.obj
 
-mainwindow.i: mainwindow.cpp.i
-.PHONY : mainwindow.i
+src\main.i: src\main.cpp.i
+.PHONY : src\main.i
 
 # target to preprocess a source file
-mainwindow.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\mainwindow.cpp.i
-.PHONY : mainwindow.cpp.i
+src\main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\main.cpp.i
+.PHONY : src\main.cpp.i
 
-mainwindow.s: mainwindow.cpp.s
-.PHONY : mainwindow.s
+src\main.s: src\main.cpp.s
+.PHONY : src\main.s
 
 # target to generate assembly for a file
-mainwindow.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\mainwindow.cpp.s
-.PHONY : mainwindow.cpp.s
+src\main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\main.cpp.s
+.PHONY : src\main.cpp.s
+
+src\mainwindow.obj: src\mainwindow.cpp.obj
+.PHONY : src\mainwindow.obj
+
+# target to build an object file
+src\mainwindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj
+.PHONY : src\mainwindow.cpp.obj
+
+src\mainwindow.i: src\mainwindow.cpp.i
+.PHONY : src\mainwindow.i
+
+# target to preprocess a source file
+src\mainwindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\mainwindow.cpp.i
+.PHONY : src\mainwindow.cpp.i
+
+src\mainwindow.s: src\mainwindow.cpp.s
+.PHONY : src\mainwindow.s
+
+# target to generate assembly for a file
+src\mainwindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\mainwindow.cpp.s
+.PHONY : src\mainwindow.cpp.s
+
+src\settingsdialog.obj: src\settingsdialog.cpp.obj
+.PHONY : src\settingsdialog.obj
+
+# target to build an object file
+src\settingsdialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj
+.PHONY : src\settingsdialog.cpp.obj
+
+src\settingsdialog.i: src\settingsdialog.cpp.i
+.PHONY : src\settingsdialog.i
+
+# target to preprocess a source file
+src\settingsdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\settingsdialog.cpp.i
+.PHONY : src\settingsdialog.cpp.i
+
+src\settingsdialog.s: src\settingsdialog.cpp.s
+.PHONY : src\settingsdialog.s
+
+# target to generate assembly for a file
+src\settingsdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\settingsdialog.cpp.s
+.PHONY : src\settingsdialog.cpp.s
+
+src\startupmanager.obj: src\startupmanager.cpp.obj
+.PHONY : src\startupmanager.obj
+
+# target to build an object file
+src\startupmanager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj
+.PHONY : src\startupmanager.cpp.obj
+
+src\startupmanager.i: src\startupmanager.cpp.i
+.PHONY : src\startupmanager.i
+
+# target to preprocess a source file
+src\startupmanager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\startupmanager.cpp.i
+.PHONY : src\startupmanager.cpp.i
+
+src\startupmanager.s: src\startupmanager.cpp.s
+.PHONY : src\startupmanager.s
+
+# target to generate assembly for a file
+src\startupmanager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\startupmanager.cpp.s
+.PHONY : src\startupmanager.cpp.s
+
+src\systemtraymanager.obj: src\systemtraymanager.cpp.obj
+.PHONY : src\systemtraymanager.obj
+
+# target to build an object file
+src\systemtraymanager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj
+.PHONY : src\systemtraymanager.cpp.obj
+
+src\systemtraymanager.i: src\systemtraymanager.cpp.i
+.PHONY : src\systemtraymanager.i
+
+# target to preprocess a source file
+src\systemtraymanager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.i
+.PHONY : src\systemtraymanager.cpp.i
+
+src\systemtraymanager.s: src\systemtraymanager.cpp.s
+.PHONY : src\systemtraymanager.s
+
+# target to generate assembly for a file
+src\systemtraymanager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.s
+.PHONY : src\systemtraymanager.cpp.s
 
 # Help Target
 help:
@@ -268,23 +343,34 @@ help:
 	@echo ... clean
 	@echo ... depend
 	@echo ... edit_cache
-	@echo ... install
-	@echo ... install/local
-	@echo ... install/strip
-	@echo ... list_install_components
 	@echo ... rebuild_cache
 	@echo ... Deskible_autogen
 	@echo ... Deskible_autogen_timestamp_deps
 	@echo ... Deskible
+	@echo ... Deskible_autogen/3YJK5W5UP7/qrc_resources.obj
+	@echo ... Deskible_autogen/3YJK5W5UP7/qrc_resources.i
+	@echo ... Deskible_autogen/3YJK5W5UP7/qrc_resources.s
 	@echo ... Deskible_autogen/mocs_compilation.obj
 	@echo ... Deskible_autogen/mocs_compilation.i
 	@echo ... Deskible_autogen/mocs_compilation.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
-	@echo ... mainwindow.obj
-	@echo ... mainwindow.i
-	@echo ... mainwindow.s
+	@echo ... src/biblelocalreader.obj
+	@echo ... src/biblelocalreader.i
+	@echo ... src/biblelocalreader.s
+	@echo ... src/main.obj
+	@echo ... src/main.i
+	@echo ... src/main.s
+	@echo ... src/mainwindow.obj
+	@echo ... src/mainwindow.i
+	@echo ... src/mainwindow.s
+	@echo ... src/settingsdialog.obj
+	@echo ... src/settingsdialog.i
+	@echo ... src/settingsdialog.s
+	@echo ... src/startupmanager.obj
+	@echo ... src/startupmanager.i
+	@echo ... src/startupmanager.s
+	@echo ... src/systemtraymanager.obj
+	@echo ... src/systemtraymanager.i
+	@echo ... src/systemtraymanager.s
 .PHONY : help
 
 

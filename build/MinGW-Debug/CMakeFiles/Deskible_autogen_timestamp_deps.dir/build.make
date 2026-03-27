@@ -42,10 +42,10 @@ RM = C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible
+CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug
+CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug
 
 # Utility rule file for Deskible_autogen_timestamp_deps.
 
@@ -67,6 +67,6 @@ CMakeFiles\Deskible_autogen_timestamp_deps.dir\clean:
 .PHONY : CMakeFiles\Deskible_autogen_timestamp_deps.dir\clean
 
 CMakeFiles\Deskible_autogen_timestamp_deps.dir\depend:
-	$(CMAKE_COMMAND) -E cmake_depends "NMake Makefiles JOM" C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles\Deskible_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "NMake Makefiles JOM" C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles\Deskible_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles\Deskible_autogen_timestamp_deps.dir\depend
 

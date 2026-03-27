@@ -42,10 +42,10 @@ RM = C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible
+CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug
+CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles\Deskible.dir\depend.make
@@ -61,75 +61,189 @@ include CMakeFiles\Deskible.dir\flags.make
 Deskible_autogen\timestamp: C:\Qt\6.8.3\mingw_64\bin\moc.exe
 Deskible_autogen\timestamp: C:\Qt\6.8.3\mingw_64\bin\uic.exe
 Deskible_autogen\timestamp: CMakeFiles\Deskible.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Deskible"
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/Deskible/build/MinGW-Debug/CMakeFiles/Deskible_autogen.dir/AutogenInfo.json Debug
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/Deskible/build/MinGW-Debug/Deskible_autogen/timestamp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Deskible"
+	C:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/CMakeFiles/Deskible_autogen.dir/AutogenInfo.json Debug
+	C:\Qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/Deskible_autogen/timestamp
+
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\resources.qrc
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: CMakeFiles\Deskible_autogen.dir\AutoRcc_resources_3YJK5W5UP7_Info.json
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\history.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\bible.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\color.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\interval.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\settings.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\previous.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\width.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\cancel.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\random.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\info.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\startup.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\close.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\next.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\share.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\minimize.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\copy.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\opacity.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\auto.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\path.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\font.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\save.svg
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Qt\6.8.3\mingw_64\bin\rcc.exe
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Qt\6.8.3\mingw_64\bin\rcc.exe
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources/resources.qrc"
+	C:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/CMakeFiles/Deskible_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Info.json Debug
 
 CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj: CMakeFiles\Deskible.dir\flags.make
 CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
 CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj: Deskible_autogen\mocs_compilation.cpp
 CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Deskible.dir/Deskible_autogen/mocs_compilation.cpp.obj"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj -MF CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\Deskible_autogen\mocs_compilation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Deskible.dir/Deskible_autogen/mocs_compilation.cpp.obj"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj -MF CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\Deskible_autogen\mocs_compilation.cpp
 
 CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/Deskible_autogen/mocs_compilation.cpp.i"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\Deskible_autogen\mocs_compilation.cpp > CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.i
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\Deskible_autogen\mocs_compilation.cpp > CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.i
 
 CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/Deskible_autogen/mocs_compilation.cpp.s"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\Deskible_autogen\mocs_compilation.cpp -o CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.s
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\Deskible_autogen\mocs_compilation.cpp -o CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.s
 
-CMakeFiles\Deskible.dir\main.cpp.obj: CMakeFiles\Deskible.dir\flags.make
-CMakeFiles\Deskible.dir\main.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
-CMakeFiles\Deskible.dir\main.cpp.obj: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\main.cpp
-CMakeFiles\Deskible.dir\main.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Deskible.dir/main.cpp.obj"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\main.cpp.obj -MF CMakeFiles\Deskible.dir\main.cpp.obj.d -o CMakeFiles\Deskible.dir\main.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\main.cpp
+CMakeFiles\Deskible.dir\src\main.cpp.obj: CMakeFiles\Deskible.dir\flags.make
+CMakeFiles\Deskible.dir\src\main.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
+CMakeFiles\Deskible.dir\src\main.cpp.obj: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\main.cpp
+CMakeFiles\Deskible.dir\src\main.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Deskible.dir/src/main.cpp.obj"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\src\main.cpp.obj -MF CMakeFiles\Deskible.dir\src\main.cpp.obj.d -o CMakeFiles\Deskible.dir\src\main.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\main.cpp
 
-CMakeFiles\Deskible.dir\main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/main.cpp.i"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\main.cpp > CMakeFiles\Deskible.dir\main.cpp.i
+CMakeFiles\Deskible.dir\src\main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/src/main.cpp.i"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\main.cpp > CMakeFiles\Deskible.dir\src\main.cpp.i
 
-CMakeFiles\Deskible.dir\main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/main.cpp.s"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\main.cpp -o CMakeFiles\Deskible.dir\main.cpp.s
+CMakeFiles\Deskible.dir\src\main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/src/main.cpp.s"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\main.cpp -o CMakeFiles\Deskible.dir\src\main.cpp.s
 
-CMakeFiles\Deskible.dir\mainwindow.cpp.obj: CMakeFiles\Deskible.dir\flags.make
-CMakeFiles\Deskible.dir\mainwindow.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
-CMakeFiles\Deskible.dir\mainwindow.cpp.obj: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\mainwindow.cpp
-CMakeFiles\Deskible.dir\mainwindow.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Deskible.dir/mainwindow.cpp.obj"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\mainwindow.cpp.obj -MF CMakeFiles\Deskible.dir\mainwindow.cpp.obj.d -o CMakeFiles\Deskible.dir\mainwindow.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\mainwindow.cpp
+CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj: CMakeFiles\Deskible.dir\flags.make
+CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
+CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\mainwindow.cpp
+CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Deskible.dir/src/mainwindow.cpp.obj"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj -MF CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj.d -o CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\mainwindow.cpp
 
-CMakeFiles\Deskible.dir\mainwindow.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/mainwindow.cpp.i"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\mainwindow.cpp > CMakeFiles\Deskible.dir\mainwindow.cpp.i
+CMakeFiles\Deskible.dir\src\mainwindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/src/mainwindow.cpp.i"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\mainwindow.cpp > CMakeFiles\Deskible.dir\src\mainwindow.cpp.i
 
-CMakeFiles\Deskible.dir\mainwindow.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/mainwindow.cpp.s"
-	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\mainwindow.cpp -o CMakeFiles\Deskible.dir\mainwindow.cpp.s
+CMakeFiles\Deskible.dir\src\mainwindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/src/mainwindow.cpp.s"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\mainwindow.cpp -o CMakeFiles\Deskible.dir\src\mainwindow.cpp.s
+
+CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj: CMakeFiles\Deskible.dir\flags.make
+CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
+CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\biblelocalreader.cpp
+CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Deskible.dir/src/biblelocalreader.cpp.obj"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj -MF CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj.d -o CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\biblelocalreader.cpp
+
+CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/src/biblelocalreader.cpp.i"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\biblelocalreader.cpp > CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.i
+
+CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/src/biblelocalreader.cpp.s"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\biblelocalreader.cpp -o CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.s
+
+CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj: CMakeFiles\Deskible.dir\flags.make
+CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
+CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\settingsdialog.cpp
+CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Deskible.dir/src/settingsdialog.cpp.obj"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj -MF CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj.d -o CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\settingsdialog.cpp
+
+CMakeFiles\Deskible.dir\src\settingsdialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/src/settingsdialog.cpp.i"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\settingsdialog.cpp > CMakeFiles\Deskible.dir\src\settingsdialog.cpp.i
+
+CMakeFiles\Deskible.dir\src\settingsdialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/src/settingsdialog.cpp.s"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\settingsdialog.cpp -o CMakeFiles\Deskible.dir\src\settingsdialog.cpp.s
+
+CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj: CMakeFiles\Deskible.dir\flags.make
+CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
+CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\systemtraymanager.cpp
+CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Deskible.dir/src/systemtraymanager.cpp.obj"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj -MF CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj.d -o CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\systemtraymanager.cpp
+
+CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/src/systemtraymanager.cpp.i"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\systemtraymanager.cpp > CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.i
+
+CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/src/systemtraymanager.cpp.s"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\systemtraymanager.cpp -o CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.s
+
+CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj: CMakeFiles\Deskible.dir\flags.make
+CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
+CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\startupmanager.cpp
+CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Deskible.dir/src/startupmanager.cpp.obj"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj -MF CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj.d -o CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\startupmanager.cpp
+
+CMakeFiles\Deskible.dir\src\startupmanager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/src/startupmanager.cpp.i"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\startupmanager.cpp > CMakeFiles\Deskible.dir\src\startupmanager.cpp.i
+
+CMakeFiles\Deskible.dir\src\startupmanager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/src/startupmanager.cpp.s"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\src\startupmanager.cpp -o CMakeFiles\Deskible.dir\src\startupmanager.cpp.s
+
+CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj: CMakeFiles\Deskible.dir\flags.make
+CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj: CMakeFiles\Deskible.dir\includes_CXX.rsp
+CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj: Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp
+CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj: CMakeFiles\Deskible.dir\compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Deskible.dir/Deskible_autogen/3YJK5W5UP7/qrc_resources.cpp.obj"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj -MF CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj.d -o CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj -c C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp
+
+CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Deskible.dir/Deskible_autogen/3YJK5W5UP7/qrc_resources.cpp.i"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp > CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.i
+
+CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Deskible.dir/Deskible_autogen/3YJK5W5UP7/qrc_resources.cpp.s"
+	C:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp -o CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.s
 
 # Object files for target Deskible
 Deskible_OBJECTS = \
 "CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj" \
-"CMakeFiles\Deskible.dir\main.cpp.obj" \
-"CMakeFiles\Deskible.dir\mainwindow.cpp.obj"
+"CMakeFiles\Deskible.dir\src\main.cpp.obj" \
+"CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj" \
+"CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj" \
+"CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj" \
+"CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj" \
+"CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj" \
+"CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj"
 
 # External object files for target Deskible
 Deskible_EXTERNAL_OBJECTS =
 
 Deskible.exe: CMakeFiles\Deskible.dir\Deskible_autogen\mocs_compilation.cpp.obj
-Deskible.exe: CMakeFiles\Deskible.dir\main.cpp.obj
-Deskible.exe: CMakeFiles\Deskible.dir\mainwindow.cpp.obj
+Deskible.exe: CMakeFiles\Deskible.dir\src\main.cpp.obj
+Deskible.exe: CMakeFiles\Deskible.dir\src\mainwindow.cpp.obj
+Deskible.exe: CMakeFiles\Deskible.dir\src\biblelocalreader.cpp.obj
+Deskible.exe: CMakeFiles\Deskible.dir\src\settingsdialog.cpp.obj
+Deskible.exe: CMakeFiles\Deskible.dir\src\systemtraymanager.cpp.obj
+Deskible.exe: CMakeFiles\Deskible.dir\src\startupmanager.cpp.obj
+Deskible.exe: CMakeFiles\Deskible.dir\Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp.obj
 Deskible.exe: CMakeFiles\Deskible.dir\build.make
 Deskible.exe: C:\Qt\6.8.3\mingw_64\lib\libQt6Widgets.a
+Deskible.exe: C:\Qt\6.8.3\mingw_64\lib\libQt6Svg.a
 Deskible.exe: C:\Qt\6.8.3\mingw_64\lib\libQt6Gui.a
 Deskible.exe: C:\Qt\6.8.3\mingw_64\lib\libQt6Core.a
 Deskible.exe: C:\Qt\6.8.3\mingw_64\lib\libQt6EntryPoint.a
 Deskible.exe: CMakeFiles\Deskible.dir\linkLibs.rsp
 Deskible.exe: CMakeFiles\Deskible.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Deskible.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable Deskible.exe"
 	C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\Deskible.dir/objects.a
 	C:\Qt\Tools\mingw1310_64\bin\ar.exe qc CMakeFiles\Deskible.dir/objects.a @CMakeFiles\Deskible.dir\objects1.rsp
 	C:\Qt\Tools\mingw1310_64\bin\g++.exe -g -mwindows -Wl,--whole-archive CMakeFiles\Deskible.dir/objects.a -Wl,--no-whole-archive -o Deskible.exe -Wl,--out-implib,libDeskible.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Deskible.dir\linkLibs.rsp
@@ -142,7 +256,8 @@ CMakeFiles\Deskible.dir\clean:
 	$(CMAKE_COMMAND) -P CMakeFiles\Deskible.dir\cmake_clean.cmake
 .PHONY : CMakeFiles\Deskible.dir\clean
 
+CMakeFiles\Deskible.dir\depend: Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp
 CMakeFiles\Deskible.dir\depend: Deskible_autogen\timestamp
-	$(CMAKE_COMMAND) -E cmake_depends "NMake Makefiles JOM" C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles\Deskible.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "NMake Makefiles JOM" C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles\Deskible.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles\Deskible.dir\depend
 

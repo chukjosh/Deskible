@@ -43,10 +43,10 @@ RM = C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible
+CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug
+CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -73,14 +73,14 @@ CMakeFiles\Deskible.dir\all: CMakeFiles\Deskible_autogen.dir\all
 CMakeFiles\Deskible.dir\all: CMakeFiles\Deskible_autogen_timestamp_deps.dir\all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=1,2,3,4,5 "Built target Deskible"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target Deskible"
 .PHONY : CMakeFiles\Deskible.dir\all
 
 # Build rule for subdir invocation for target.
 CMakeFiles\Deskible.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\Deskible.dir\all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles 0
 .PHONY : CMakeFiles\Deskible.dir\rule
 
 # Convenience name for target.
@@ -99,14 +99,14 @@ CMakeFiles\Deskible.dir\clean:
 CMakeFiles\Deskible_autogen_timestamp_deps.dir\all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible_autogen_timestamp_deps.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible_autogen_timestamp_deps.dir\depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible_autogen_timestamp_deps.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible_autogen_timestamp_deps.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num= "Built target Deskible_autogen_timestamp_deps"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num= "Built target Deskible_autogen_timestamp_deps"
 .PHONY : CMakeFiles\Deskible_autogen_timestamp_deps.dir\all
 
 # Build rule for subdir invocation for target.
 CMakeFiles\Deskible_autogen_timestamp_deps.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\Deskible_autogen_timestamp_deps.dir\all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles 0
 .PHONY : CMakeFiles\Deskible_autogen_timestamp_deps.dir\rule
 
 # Convenience name for target.
@@ -125,14 +125,14 @@ CMakeFiles\Deskible_autogen_timestamp_deps.dir\clean:
 CMakeFiles\Deskible_autogen.dir\all: CMakeFiles\Deskible_autogen_timestamp_deps.dir\all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible_autogen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible_autogen.dir\depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Deskible_autogen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Deskible_autogen.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=6 "Built target Deskible_autogen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=12 "Built target Deskible_autogen"
 .PHONY : CMakeFiles\Deskible_autogen.dir\all
 
 # Build rule for subdir invocation for target.
 CMakeFiles\Deskible_autogen.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\Deskible_autogen.dir\all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles 0
 .PHONY : CMakeFiles\Deskible_autogen.dir\rule
 
 # Convenience name for target.

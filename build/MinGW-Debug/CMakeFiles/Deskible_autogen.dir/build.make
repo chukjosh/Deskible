@@ -42,10 +42,10 @@ RM = C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible
+CMAKE_SOURCE_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug
+CMAKE_BINARY_DIR = C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug
 
 # Utility rule file for Deskible_autogen.
 
@@ -60,9 +60,9 @@ CMakeFiles\Deskible_autogen: Deskible_autogen\timestamp
 Deskible_autogen\timestamp: C:\Qt\6.8.3\mingw_64\bin\moc.exe
 Deskible_autogen\timestamp: C:\Qt\6.8.3\mingw_64\bin\uic.exe
 Deskible_autogen\timestamp: CMakeFiles\Deskible_autogen.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Deskible"
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/Deskible/build/MinGW-Debug/CMakeFiles/Deskible_autogen.dir/AutogenInfo.json Debug
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/Deskible/build/MinGW-Debug/Deskible_autogen/timestamp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Deskible"
+	C:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/CMakeFiles/Deskible_autogen.dir/AutogenInfo.json Debug
+	C:\Qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/Deskible_autogen/timestamp
 
 Deskible_autogen: CMakeFiles\Deskible_autogen
 Deskible_autogen: Deskible_autogen\timestamp
@@ -78,6 +78,6 @@ CMakeFiles\Deskible_autogen.dir\clean:
 .PHONY : CMakeFiles\Deskible_autogen.dir\clean
 
 CMakeFiles\Deskible_autogen.dir\depend:
-	$(CMAKE_COMMAND) -E cmake_depends "NMake Makefiles JOM" C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\Deskible\build\MinGW-Debug\CMakeFiles\Deskible_autogen.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "NMake Makefiles JOM" C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\build\MinGW-Debug\CMakeFiles\Deskible_autogen.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles\Deskible_autogen.dir\depend
 
