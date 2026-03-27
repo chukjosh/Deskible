@@ -33,6 +33,7 @@ public:
     void setVerseFont(const QFont &font);
     void setVerseColor(const QColor &color);
     void setRefColor(const QColor &color);
+    void setRefScale(double scale);
     void setBiblePath(const QString &path);
 
     // Verse navigation
@@ -41,6 +42,7 @@ public:
     void randomVerse();
 
     BibleLocalReader* reader() const { return m_reader; }
+    QString currentVerseFull() const { return m_currentText + " (" + m_currentRef + ")"; }
     
     // Getters for SettingsDialog
     bool autoSwitch() const { return m_autoSwitch; }
@@ -53,6 +55,7 @@ public:
     QFont verseFont() const { return m_verseFont; }
     QColor verseColor() const { return m_verseColor; }
     QColor refColor() const { return m_refColor; }
+    double refScale() const { return m_refScale; }
     QString biblePath() const { return m_biblePath; }
 
 signals:
@@ -98,6 +101,7 @@ private:
     QFont m_verseFont;
     QColor m_verseColor;
     QColor m_refColor;
+    double m_refScale = 0.78;
     QString m_biblePath;
 
     // Interaction

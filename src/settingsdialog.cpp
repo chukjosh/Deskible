@@ -77,6 +77,18 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     connect(fontBtn, &QPushButton::clicked, this, &SettingsDialog::onPickFont);
     appLayout->addWidget(fontBtn);
 
+    QHBoxLayout *refScaleLayout = new QHBoxLayout();
+    refScaleLayout->addWidget(new QLabel(tr("Ref Font Scale (%):"), this));
+    m_refScaleSpin = new QDoubleSpinBox(this);
+    m_refScaleSpin->setRange(0.1, 2.0);
+    m_refScaleSpin->setSingleStep(0.1);
+    connect(m_refScaleSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [this](double val) {
+        m_mainWindow->setRefScale(val);
+        m_mainWindow->applySettings();
+    });
+    refScaleLayout->addWidget(m_refScaleSpin);
+    appLayout->addLayout(refScaleLayout);
+
     QHBoxLayout *colorLayout = new QHBoxLayout();
     QPushButton *vColorBtn = new QPushButton(QIcon(iconPrefix + "color.svg"), tr("Verse Color..."), this);
     connect(vColorBtn, &QPushButton::clicked, this, &SettingsDialog::onPickVerseColor);
@@ -104,7 +116,7 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     QHBoxLayout *themeLayout = new QHBoxLayout();
     themeLayout->addWidget(new QLabel(tr("Theme:"), this));
     m_themeCombo = new QComboBox(this);
-    m_themeCombo->addItem(tr("Follow System"), 0);
+    m_themeCombo->addItem(tr("System"), 0);
     m_themeCombo->addItem(tr("Light Mode"), 1);
     m_themeCombo->addItem(tr("Dark Mode"), 2);
     themeLayout->addWidget(m_themeCombo);
@@ -190,6 +202,16 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     startupLayout->addWidget(m_startupCheck);
     mainLayout->addWidget(startupGroup);
 
+    // Utilities
+    QGroupBox *utilGroup = new QGroupBox(tr("Utilities"), this);
+    QVBoxLayout *utilLayout = new QVBoxLayout(utilGroup);
+    QPushButton *copyBtn = new QPushButton(QIcon(iconPrefix + "copy.svg"), tr("Copy current verse to clipboard"), this);
+    connect(copyBtn, &QPushButton::clicked, [this]() {
+        QApplication::clipboard()->setText(m_mainWindow->currentVerseFull());
+    });
+    utilLayout->addWidget(copyBtn);
+    mainLayout->addWidget(utilGroup);
+
     m_scrollArea->setWidget(scrollContent);
     dialogLayout->addWidget(m_scrollArea);
 
@@ -260,6 +282,7 @@ void SettingsDialog::loadCurrentValues()
     m_opacitySpin->setValue(static_cast<int>(m_mainWindow->opacityValue() * 100));
     m_maxWidthSpin->setValue(m_mainWindow->maxWidthValue());
     m_maxHeightSpin->setValue(m_mainWindow->maxHeightValue());
+    m_refScaleSpin->setValue(m_mainWindow->refScale());
     m_themeCombo->setCurrentIndex(static_cast<int>(m_mainWindow->theme()));
     
     if (m_mainWindow->sizeMode() == SizeMode::Dynamic)
@@ -325,6 +348,7 @@ void SettingsDialog::onAccepted()
     m_mainWindow->setVerseFont(m_currentFont);
     m_mainWindow->setVerseColor(m_currentVerseColor);
     m_mainWindow->setRefColor(m_currentRefColor);
+    m_mainWindow->setRefScale(m_refScaleSpin->value());
     m_mainWindow->setOpacity(m_opacitySpin->value() / 100.0);
     m_mainWindow->setMaxWidth(m_maxWidthSpin->value());
     m_mainWindow->setMaxHeight(m_maxHeightSpin->value());

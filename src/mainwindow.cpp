@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_timer, &QTimer::timeout, this, &MainWindow::onAutoSwitchTimer);
     connect(m_reader, &BibleLocalReader::verseReady, this, &MainWindow::onVerseReady);
     
+    setWindowIcon(QIcon(":/icons/icons/logo.png"));
     loadSettings();
 
     if (!m_reader->openFile(m_biblePath)) {
@@ -45,7 +46,7 @@ void MainWindow::loadSettings()
     QSettings settings("Deskible", "Deskible");
     m_switchInterval = settings.value("switchInterval", 60).toInt();
     m_autoSwitch = settings.value("autoSwitch", true).toBool();
-    m_opacity = settings.value("opacity", 0.75).toDouble();
+    m_opacity = settings.value("opacity", 0.0).toDouble(); // Default to fully transparent background
     m_maxWidth = settings.value("maxWidth", 420).toInt();
     m_maxHeight = settings.value("maxHeight", 350).toInt();
     m_theme = static_cast<Theme>(settings.value("theme", 0).toInt());
@@ -53,7 +54,7 @@ void MainWindow::loadSettings()
     
     m_verseFont = settings.value("verseFont", QFont("Georgia", 13)).value<QFont>();
     m_verseColor = QColor(settings.value("verseColor", "#FFFFFFFF").toString());
-    m_refColor = QColor(settings.value("refColor", "#FFAAAAFF").toString());
+    m_refScale = settings.value("refScale", 0.78).toDouble();
     
     QString defaultPath = QCoreApplication::applicationDirPath() + "/bibleversions/kjv.txt";
     QString alternatePath = QDir::currentPath() + "/bibleversions/kjv.txt";
@@ -89,6 +90,7 @@ void MainWindow::saveSettings()
     settings.setValue("verseFont", m_verseFont);
     settings.setValue("verseColor", m_verseColor.name(QColor::HexArgb));
     settings.setValue("refColor", m_refColor.name(QColor::HexArgb));
+    settings.setValue("refScale", m_refScale);
     settings.setValue("filePath", m_biblePath);
     settings.setValue("position", pos());
 }
@@ -125,6 +127,7 @@ void MainWindow::setSizeMode(SizeMode mode) { m_sizeMode = mode; }
 void MainWindow::setVerseFont(const QFont &font) { m_verseFont = font; }
 void MainWindow::setVerseColor(const QColor &color) { m_verseColor = color; }
 void MainWindow::setRefColor(const QColor &color) { m_refColor = color; }
+void MainWindow::setRefScale(double scale) { m_refScale = scale; }
 void MainWindow::setBiblePath(const QString &path) { m_biblePath = path; }
 
 void MainWindow::nextVerse()
@@ -276,7 +279,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     // Reference Text
     if (!m_currentRef.isEmpty()) {
         QFont refFont = m_verseFont;
-        refFont.setPointSizeF(m_verseFont.pointSizeF() * 0.78);
+        refFont.setPointSizeF(m_verseFont.pointSizeF() * m_refScale);
         refFont.setItalic(true);
         painter.setFont(refFont);
         painter.setPen(m_refColor);

@@ -12,6 +12,8 @@
 #include <QButtonGroup>
 #include <QScrollArea>
 #include <QComboBox>
+#include <QDoubleSpinBox>
+#include <QClipboard>
 #include "common.h"
 
 class MainWindow;
@@ -44,6 +46,7 @@ private:
     QComboBox *m_themeCombo;
     QButtonGroup *m_sizeModeGroup;
 
+    QDoubleSpinBox *m_refScaleSpin;
     QCheckBox *m_autoSwitchCheck;
     QSpinBox *m_intervalSpin;
 
