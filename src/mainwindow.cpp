@@ -277,13 +277,16 @@ void MainWindow::updateWindowSize()
         newRect.moveCenter(oldCenter);
 
         // Animate size change while keeping center
-        if (m_sizeAnimation) m_sizeAnimation->stop();
+        if (m_sizeAnimation) {
+            m_sizeAnimation->stop();
+            m_sizeAnimation->deleteLater();
+        }
         m_sizeAnimation = new QPropertyAnimation(this, "geometry");
         m_sizeAnimation->setDuration(400);
         m_sizeAnimation->setStartValue(geometry());
         m_sizeAnimation->setEndValue(newRect);
         m_sizeAnimation->setEasingCurve(QEasingCurve::OutBack);
-        m_sizeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+        m_sizeAnimation->start();
     } else {
         setFixedSize(m_maxWidth, m_maxHeight);
     }
@@ -504,7 +507,10 @@ void MainWindow::enterEvent(QEnterEvent *event)
     Q_UNUSED(event);
     m_hovered = true;
     
-    if (m_fadeAnimation) m_fadeAnimation->stop();
+    if (m_fadeAnimation) {
+        m_fadeAnimation->stop();
+        m_fadeAnimation->deleteLater();
+    }
     m_fadeAnimation = new QVariantAnimation(this);
     m_fadeAnimation->setDuration(300);
     m_fadeAnimation->setStartValue(m_hoverOpacity);
@@ -514,7 +520,7 @@ void MainWindow::enterEvent(QEnterEvent *event)
         m_hoverOpacity = val.toDouble();
         update();
     });
-    m_fadeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+    m_fadeAnimation->start();
 }
 
 void MainWindow::leaveEvent(QEvent *event)
@@ -522,7 +528,10 @@ void MainWindow::leaveEvent(QEvent *event)
     Q_UNUSED(event);
     m_hovered = false;
     
-    if (m_fadeAnimation) m_fadeAnimation->stop();
+    if (m_fadeAnimation) {
+        m_fadeAnimation->stop();
+        m_fadeAnimation->deleteLater();
+    }
     m_fadeAnimation = new QVariantAnimation(this);
     m_fadeAnimation->setDuration(400);
     m_fadeAnimation->setStartValue(m_hoverOpacity);
@@ -532,7 +541,7 @@ void MainWindow::leaveEvent(QEvent *event)
         m_hoverOpacity = val.toDouble();
         update();
     });
-    m_fadeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+    m_fadeAnimation->start();
 }
 
 void MainWindow::showToast(const QString &msg)
