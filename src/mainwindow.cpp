@@ -9,6 +9,11 @@
 #include <QSettings>
 #include <QDir>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QFile>
+#include <QStandardPaths>
+#include <QClipboard>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -43,57 +48,75 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadSettings()
 {
-    QSettings settings("Deskible", "Deskible");
-    m_switchInterval = settings.value("switchInterval", 60).toInt();
-    m_autoSwitch = settings.value("autoSwitch", true).toBool();
-    m_opacity = settings.value("opacity", 0.0).toDouble(); // Default to fully transparent background
-    m_maxWidth = settings.value("maxWidth", 420).toInt();
-    m_maxHeight = settings.value("maxHeight", 350).toInt();
-    m_theme = static_cast<Theme>(settings.value("theme", 0).toInt());
-    m_sizeMode = static_cast<SizeMode>(settings.value("sizeMode", 0).toInt());
-    
-    m_verseFont = settings.value("verseFont", QFont("Georgia", 13)).value<QFont>();
-    m_verseScale = settings.value("verseScale", 1.0).toDouble();
-    m_refColor = QColor(settings.value("refColor", "#FFAAAAFF").toString());
-    
-    QString defaultPath = QCoreApplication::applicationDirPath() + "/bibleversions/kjv.txt";
-    QString alternatePath = QDir::currentPath() + "/bibleversions/kjv.txt";
-    QString sourcePath = QDir::currentPath() + "/../Deskible/bibleversions/kjv.txt"; // Common for CMake build dirs
-    
-    m_biblePath = settings.value("filePath", "").toString();
-    if (m_biblePath.isEmpty()) {
-        if (QFile::exists(defaultPath)) m_biblePath = defaultPath;
-        else if (QFile::exists(alternatePath)) m_biblePath = alternatePath;
-        else if (QFile::exists(sourcePath)) m_biblePath = sourcePath;
-        else m_biblePath = defaultPath; // Fallback to original
+    QString configPath = QCoreApplication::applicationDirPath() + "/config.json";
+    QFile file(configPath);
+    QJsonObject settings;
+    if (file.open(QIODevice::ReadOnly)) {
+        settings = QJsonDocument::fromJson(file.readAll()).object();
+        file.close();
+    } else {
+        // Fallback for first run
+        qDebug() << "Deskible: No config.json found, using defaults.";
     }
 
-    QPoint defaultPos;
-    if (settings.contains("position")) {
-        move(settings.value("position").toPoint());
+    m_switchInterval = settings.contains("switchInterval") ? settings["switchInterval"].toInt() : 60;
+    m_autoSwitch = settings.contains("autoSwitch") ? settings["autoSwitch"].toBool() : true;
+    m_opacity = settings.contains("opacity") ? settings["opacity"].toDouble() : 0.0;
+    m_maxWidth = settings.contains("maxWidth") ? settings["maxWidth"].toInt() : 420;
+    m_maxHeight = settings.contains("maxHeight") ? settings["maxHeight"].toInt() : 350;
+    m_theme = static_cast<Theme>(settings.contains("theme") ? settings["theme"].toInt() : 0);
+    m_sizeMode = static_cast<SizeMode>(settings.contains("sizeMode") ? settings["sizeMode"].toInt() : 0);
+    
+    if (settings.contains("verseFont")) {
+        m_verseFont.fromString(settings["verseFont"].toString());
+    } else {
+        m_verseFont = QFont("Georgia", 13);
+    }
+    m_verseScale = settings.contains("verseScale") ? settings["verseScale"].toDouble() : 1.0;
+    m_verseColor = QColor(settings.contains("verseColor") ? settings["verseColor"].toString() : "#FFFFFFFF");
+    m_refColor = QColor(settings.contains("refColor") ? settings["refColor"].toString() : "#FFAAAAFF");
+    m_refScale = settings.contains("refScale") ? settings["refScale"].toDouble() : 0.78;
+    
+    m_biblePath = settings.contains("filePath") ? settings["filePath"].toString() : "";
+    if (m_biblePath.isEmpty()) {
+        QString defaultPath = QCoreApplication::applicationDirPath() + "/bibleversions/kjv.txt";
+        if (QFile::exists(defaultPath)) m_biblePath = defaultPath;
+        else m_biblePath = defaultPath;
+    }
+
+    if (settings.contains("x") && settings.contains("y")) {
+        move(settings["x"].toInt(), settings["y"].toInt());
     } else {
         QRect screenGeom = QApplication::primaryScreen()->availableGeometry();
-        move(screenGeom.right() - width() - 440, screenGeom.bottom() - height() - 100); 
+        move(screenGeom.right() - 440, screenGeom.bottom() - 150); 
     }
 }
 
 void MainWindow::saveSettings()
 {
-    QSettings settings("Deskible", "Deskible");
-    settings.setValue("switchInterval", m_switchInterval);
-    settings.setValue("autoSwitch", m_autoSwitch);
-    settings.setValue("opacity", m_opacity);
-    settings.setValue("maxWidth", m_maxWidth);
-    settings.setValue("maxHeight", m_maxHeight);
-    settings.setValue("theme", static_cast<int>(m_theme));
-    settings.setValue("sizeMode", static_cast<int>(m_sizeMode));
-    settings.setValue("verseFont", m_verseFont);
-    settings.setValue("verseColor", m_verseColor.name(QColor::HexArgb));
-    settings.setValue("verseScale", m_verseScale);
-    settings.setValue("refColor", m_refColor.name(QColor::HexArgb));
-    settings.setValue("refScale", m_refScale);
-    settings.setValue("filePath", m_biblePath);
-    settings.setValue("position", pos());
+    QJsonObject settings;
+    settings["switchInterval"] = m_switchInterval;
+    settings["autoSwitch"] = m_autoSwitch;
+    settings["opacity"] = m_opacity;
+    settings["maxWidth"] = m_maxWidth;
+    settings["maxHeight"] = m_maxHeight;
+    settings["theme"] = static_cast<int>(m_theme);
+    settings["sizeMode"] = static_cast<int>(m_sizeMode);
+    settings["verseFont"] = m_verseFont.toString();
+    settings["verseScale"] = m_verseScale;
+    settings["verseColor"] = m_verseColor.name(QColor::HexArgb);
+    settings["refColor"] = m_refColor.name(QColor::HexArgb);
+    settings["refScale"] = m_refScale;
+    settings["filePath"] = m_biblePath;
+    settings["x"] = pos().x();
+    settings["y"] = pos().y();
+
+    QString configPath = QCoreApplication::applicationDirPath() + "/config.json";
+    QFile file(configPath);
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(QJsonDocument(settings).toJson());
+        file.close();
+    }
 }
 
 void MainWindow::applySettings()
@@ -361,6 +384,10 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
     menu.addAction(QIcon(iconPrefix + "next.svg"), tr("Next Verse"), this, &MainWindow::nextVerse);
     menu.addAction(QIcon(iconPrefix + "previous.svg"), tr("Previous Verse"), this, &MainWindow::previousVerse);
     menu.addAction(QIcon(iconPrefix + "random.svg"), tr("Random Verse"), this, &MainWindow::randomVerse);
+    menu.addSeparator();
+    menu.addAction(QIcon(iconPrefix + "copy.svg"), tr("Copy Verse"), [this]() {
+        QApplication::clipboard()->setText(currentVerseFull());
+    });
     menu.addSeparator();
     menu.addAction(QIcon(iconPrefix + "settings.svg"), tr("Settings"), [this]() {
         SettingsDialog dialog(this);

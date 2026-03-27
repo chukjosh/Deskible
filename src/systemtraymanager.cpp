@@ -11,7 +11,7 @@ SystemTrayManager::SystemTrayManager(MainWindow *window, QObject *parent)
     : QObject(parent), m_window(window)
 {
     m_trayIcon = new QSystemTrayIcon(this);
-    m_trayIcon->setIcon(QIcon(":/icons/icons/logo.png"));
+    m_trayIcon->setIcon(createTrayIcon());
     m_trayIcon->setToolTip("Deskible");
 
     m_trayMenu = new QMenu();
