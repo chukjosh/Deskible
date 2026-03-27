@@ -157,6 +157,7 @@ void MainWindow::setMaxWidth(int width) { m_maxWidth = width; }
 void MainWindow::setMaxHeight(int height) { m_maxHeight = height; }
 void MainWindow::setTheme(Theme theme) { m_theme = theme; }
 void MainWindow::setSizeMode(SizeMode mode) { m_sizeMode = mode; }
+void MainWindow::setVerseFont(const QFont &font) { m_verseFont = font; }
 void MainWindow::setVerseScale(double scale) { m_verseScale = scale; }
 void MainWindow::setVerseColor(const QColor &color) { m_verseColor = color; }
 void MainWindow::setAccentColor(const QColor &color) { m_accentColor = color; }
