@@ -227,6 +227,15 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     utilLayout->addWidget(copyBtn);
     mainLayout->addWidget(utilGroup);
 
+    // Gestures & Shortcuts
+    QGroupBox *gestureGroup = new QGroupBox(tr("Gestures & Shortcuts"), this);
+    QVBoxLayout *gestureLayout = new QVBoxLayout(gestureGroup);
+    gestureLayout->addWidget(new QLabel(tr("• <b>Double-Click</b>: Show a random verse"), this));
+    gestureLayout->addWidget(new QLabel(tr("• <b>Right-Click</b>: Open context menu (Settings, Navigation, Quit)"), this));
+    gestureLayout->addWidget(new QLabel(tr("• <b>Left-Drag</b>: Move the window anywhere on your desktop"), this));
+    gestureLayout->addWidget(new QLabel(tr("• <b>Middle-Click</b>: (No action assigned)"), this));
+    mainLayout->addWidget(gestureGroup);
+
     m_scrollArea->setWidget(scrollContent);
     dialogLayout->addWidget(m_scrollArea);
 
