@@ -93,6 +93,10 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     opacityLayout->addWidget(new QLabel(tr("Background Opacity (%):"), this));
     m_opacitySpin = new QSpinBox(this);
     m_opacitySpin->setRange(0, 100);
+    connect(m_opacitySpin, QOverload<int>::of(&QSpinBox::valueChanged), [this](int val) {
+        m_mainWindow->setOpacity(val / 100.0);
+        m_mainWindow->applySettings();
+    });
     opacityLayout->addWidget(m_opacitySpin);
     appLayout->addLayout(opacityLayout);
 
@@ -214,8 +218,8 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
 void SettingsDialog::onThemeChanged(int index)
 {
-    // Apply dummy settings to main window just for preview
     m_mainWindow->setTheme(static_cast<Theme>(index));
+    m_mainWindow->applySettings(); // Real live preview
     applyStyle();
     refreshIcons();
 }
@@ -286,19 +290,31 @@ void SettingsDialog::onPickFont()
 {
     bool ok;
     QFont font = QFontDialog::getFont(&ok, m_currentFont, this);
-    if (ok) m_currentFont = font;
+    if (ok) {
+        m_currentFont = font;
+        m_mainWindow->setVerseFont(m_currentFont);
+        m_mainWindow->applySettings();
+    }
 }
 
 void SettingsDialog::onPickVerseColor()
 {
     QColor color = QColorDialog::getColor(m_currentVerseColor, this, tr("Pick Verse Color"), QColorDialog::ShowAlphaChannel);
-    if (color.isValid()) m_currentVerseColor = color;
+    if (color.isValid()) {
+        m_currentVerseColor = color;
+        m_mainWindow->setVerseColor(m_currentVerseColor);
+        m_mainWindow->applySettings();
+    }
 }
 
 void SettingsDialog::onPickRefColor()
 {
     QColor color = QColorDialog::getColor(m_currentRefColor, this, tr("Pick Reference Color"), QColorDialog::ShowAlphaChannel);
-    if (color.isValid()) m_currentRefColor = color;
+    if (color.isValid()) {
+        m_currentRefColor = color;
+        m_mainWindow->setRefColor(m_currentRefColor);
+        m_mainWindow->applySettings();
+    }
 }
 
 void SettingsDialog::onAccepted()

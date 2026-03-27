@@ -95,10 +95,16 @@ void MainWindow::saveSettings()
 
 void MainWindow::applySettings()
 {
-    // Do NOT call setWindowOpacity, we want text to stay 100% visible.
-    // We will use m_opacity in the paintEvent for the background only.
-    setWindowOpacity(1.0);
-    
+    // Reload Bible if path changed
+    if (m_reader->filePath() != m_biblePath) {
+        if (!m_reader->openFile(m_biblePath)) {
+            m_currentText = tr("⚠ File not found.\nRight-click → Settings to locate kjv.txt");
+            m_currentRef = "";
+        } else {
+            randomVerse();
+        }
+    }
+
     if (m_autoSwitch) {
         m_timer->start(m_switchInterval * 1000);
     } else {
