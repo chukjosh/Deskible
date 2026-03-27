@@ -67,6 +67,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void onVerseReady(QString text, QString reference, QString version);

@@ -18,15 +18,32 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
+    bool isDark = true;
+    if (m_mainWindow->theme() == Theme::Dark) isDark = true;
+    else if (m_mainWindow->theme() == Theme::Light) isDark = false;
+    else {
+        QPalette p = qApp->palette();
+        isDark = p.color(QPalette::WindowText).lightness() > p.color(QPalette::Window).lightness();
+    }
+    QString iconPrefix = isDark ? ":/icons/icons/white/" : ":/icons/icons/dark/";
+
     // Auto-Switching
     QGroupBox *autoGroup = new QGroupBox(tr("Auto-Switching"), this);
     QVBoxLayout *autoLayout = new QVBoxLayout(autoGroup);
+    
+    QHBoxLayout *autoHeaderLayout = new QHBoxLayout();
+    QLabel *autoIcon = new QLabel(this);
+    autoIcon->setPixmap(QIcon(iconPrefix + "auto.svg").pixmap(16, 16));
+    autoHeaderLayout->addWidget(autoIcon);
+    autoHeaderLayout->addWidget(new QLabel(tr("Auto-Switching"), this));
+    autoLayout->addLayout(autoHeaderLayout);
+    
     m_autoSwitchCheck = new QCheckBox(tr("Automatically switch verses"), this);
     
     QHBoxLayout *intervalLayout = new QHBoxLayout();
     QLabel *intervalIcon = new QLabel(this);
     // Initial icon - will be refreshed in refreshIcons()
-    intervalIcon->setPixmap(QIcon(":/icons/icons/white/interval.svg").pixmap(16, 16));
+    intervalIcon->setPixmap(QIcon(iconPrefix + "interval.svg").pixmap(16, 16));
     intervalIcon->setObjectName("intervalIcon");
     
     intervalLayout->addWidget(intervalIcon);
@@ -42,14 +59,14 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     QGroupBox *appearanceGroup = new QGroupBox(tr("Appearance"), this);
     QVBoxLayout *appLayout = new QVBoxLayout(appearanceGroup);
     
-    QPushButton *fontBtn = new QPushButton(QIcon(":/icons/icons/font.svg"), tr("Choose Font..."), this);
+    QPushButton *fontBtn = new QPushButton(QIcon(iconPrefix + "font.svg"), tr("Choose Font..."), this);
     connect(fontBtn, &QPushButton::clicked, this, &SettingsDialog::onPickFont);
     appLayout->addWidget(fontBtn);
 
     QHBoxLayout *colorLayout = new QHBoxLayout();
-    QPushButton *vColorBtn = new QPushButton(QIcon(":/icons/icons/color.svg"), tr("Verse Color..."), this);
+    QPushButton *vColorBtn = new QPushButton(QIcon(iconPrefix + "color.svg"), tr("Verse Color..."), this);
     connect(vColorBtn, &QPushButton::clicked, this, &SettingsDialog::onPickVerseColor);
-    QPushButton *rColorBtn = new QPushButton(QIcon(":/icons/icons/color.svg"), tr("Ref Color..."), this);
+    QPushButton *rColorBtn = new QPushButton(QIcon(iconPrefix + "color.svg"), tr("Ref Color..."), this);
     connect(rColorBtn, &QPushButton::clicked, this, &SettingsDialog::onPickRefColor);
     colorLayout->addWidget(vColorBtn);
     colorLayout->addWidget(rColorBtn);
@@ -57,7 +74,8 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
     QHBoxLayout *opacityLayout = new QHBoxLayout();
     QLabel *opacityIcon = new QLabel(this);
-    opacityIcon->setPixmap(QIcon(":/icons/icons/opacity.svg").pixmap(16, 16));
+    opacityIcon->setPixmap(QIcon(iconPrefix + "opacity.svg").pixmap(16, 16));
+    opacityIcon->setObjectName("opacityIcon");
     opacityLayout->addWidget(opacityIcon);
     opacityLayout->addWidget(new QLabel(tr("Background Opacity (%):"), this));
     m_opacitySpin = new QSpinBox(this);
@@ -78,8 +96,14 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
 
     // Layout & Sizing
     QGroupBox *sizingGroup = new QGroupBox(tr("Layout & Sizing"), this);
-    sizingGroup->setIcon(QIcon(":/icons/icons/width.svg"));
     QVBoxLayout *sizingLayout = new QVBoxLayout(sizingGroup);
+
+    QHBoxLayout *themeHeaderLayout = new QHBoxLayout();
+    QLabel *sizingIcon = new QLabel(this);
+    sizingIcon->setPixmap(QIcon(iconPrefix + "width.svg").pixmap(16, 16));
+    themeHeaderLayout->addWidget(sizingIcon);
+    themeHeaderLayout->addWidget(new QLabel(tr("Configure dimensions"), this));
+    sizingLayout->addLayout(themeHeaderLayout);
 
     QHBoxLayout *modeLayout = new QHBoxLayout();
     m_sizeModeGroup = new QButtonGroup(this);
@@ -110,12 +134,18 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     // Bible File
     QGroupBox *fileGroup = new QGroupBox(tr("Bible File"), this);
     QVBoxLayout *fileLayout = new QVBoxLayout(fileGroup);
-    fileLayout->addWidget(new QLabel(tr("King James Version (KJV)"), this));
+    
+    QHBoxLayout *fileHeaderLayout = new QHBoxLayout();
+    QLabel *fileIcon = new QLabel(this);
+    fileIcon->setPixmap(QIcon(iconPrefix + "bible.svg").pixmap(16, 16));
+    fileHeaderLayout->addWidget(fileIcon);
+    fileHeaderLayout->addWidget(new QLabel(tr("King James Version (KJV)"), this));
+    fileLayout->addLayout(fileHeaderLayout);
     
     QHBoxLayout *browseLayout = new QHBoxLayout();
     m_pathEdit = new QLineEdit(this);
     m_pathEdit->setReadOnly(true);
-    QPushButton *browseBtn = new QPushButton(QIcon(":/icons/icons/path.svg"), tr("Browse..."), this);
+    QPushButton *browseBtn = new QPushButton(QIcon(iconPrefix + "path.svg"), tr("Browse..."), this);
     connect(browseBtn, &QPushButton::clicked, this, &SettingsDialog::onBrowseClicked);
     browseLayout->addWidget(m_pathEdit);
     browseLayout->addWidget(browseBtn);
@@ -130,14 +160,22 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     // Startup
     QGroupBox *startupGroup = new QGroupBox(tr("Startup"), this);
     QVBoxLayout *startupLayout = new QVBoxLayout(startupGroup);
+    
+    QHBoxLayout *startupHeaderLayout = new QHBoxLayout();
+    QLabel *startupIcon = new QLabel(this);
+    startupIcon->setPixmap(QIcon(iconPrefix + "startup.svg").pixmap(16, 16));
+    startupHeaderLayout->addWidget(startupIcon);
+    startupHeaderLayout->addWidget(new QLabel(tr("Autostart"), this));
+    startupLayout->addLayout(startupHeaderLayout);
+    
     m_startupCheck = new QCheckBox(tr("Launch Deskible at system startup"), this);
     startupLayout->addWidget(m_startupCheck);
     mainLayout->addWidget(startupGroup);
 
     // Buttons
     QHBoxLayout *btnLayout = new QHBoxLayout();
-    QPushButton *okBtn = new QPushButton(QIcon(":/icons/icons/save.svg"), tr("OK"), this);
-    QPushButton *cancelBtn = new QPushButton(QIcon(":/icons/icons/cancel.svg"), tr("Cancel"), this);
+    QPushButton *okBtn = new QPushButton(QIcon(iconPrefix + "save.svg"), tr("OK"), this);
+    QPushButton *cancelBtn = new QPushButton(QIcon(iconPrefix + "cancel.svg"), tr("Cancel"), this);
     connect(okBtn, &QPushButton::clicked, this, &SettingsDialog::onAccepted);
     connect(cancelBtn, &QPushButton::clicked, this, &QDialog::reject);
     btnLayout->addStretch();
@@ -167,7 +205,7 @@ void SettingsDialog::refreshIcons()
     // This requires keeping pointers or finding children. 
     // For simplicity, I'll update the most important ones or use findChildren.
     for (auto btn : findChildren<QPushButton*>()) {
-        QString text = btn->text().lowered();
+        QString text = btn->text().toLower();
         if (text.contains("font")) btn->setIcon(QIcon(iconPrefix + "font.svg"));
         else if (text.contains("color")) btn->setIcon(QIcon(iconPrefix + "color.svg"));
         else if (text.contains("browse")) btn->setIcon(QIcon(iconPrefix + "path.svg"));

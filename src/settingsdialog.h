@@ -38,6 +38,9 @@ private:
     QComboBox *m_themeCombo;
     QButtonGroup *m_sizeModeGroup;
 
+    QCheckBox *m_autoSwitchCheck;
+    QSpinBox *m_intervalSpin;
+
     QFont m_currentFont;
     QColor m_currentVerseColor;
     QColor m_currentRefColor;

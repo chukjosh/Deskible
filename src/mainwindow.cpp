@@ -16,17 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_NoSystemBackground);
-    
-    // Connect to system palette changes
-    connect(qApp, &QGuiApplication::paletteChanged, this, [this]() {
-        if (m_theme == Theme::System) applySettings();
-    });
-
     m_reader = new BibleLocalReader(this);
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &MainWindow::onAutoSwitchTimer);
     connect(m_reader, &BibleLocalReader::verseReady, this, &MainWindow::onVerseReady);
-
+    
     loadSettings();
 
     if (!m_reader->openFile(m_biblePath)) {
@@ -238,7 +232,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     // Subtle edge highlight
     painter.setPen(QPen(isDark ? QColor(255, 255, 255, 30) : QColor(0, 0, 0, 20), 1));
-    painter.setBrush(Qt::NoPen);
+    painter.setBrush(Qt::NoBrush);
     painter.drawRoundedRect(rect, 16, 16);
 
     // Top subtle highlight (glass effect)
@@ -344,3 +338,12 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
     menu.exec(event->globalPos());
 }
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::ApplicationPaletteChange) {
+        if (m_theme == Theme::System) applySettings();
+    }
+    QWidget::changeEvent(event);
+}
+
