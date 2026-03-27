@@ -309,6 +309,14 @@ void SettingsDialog::refreshIcons()
 
 void SettingsDialog::loadCurrentValues()
 {
+    m_themeCombo->blockSignals(true);
+    m_autoSwitchCheck->blockSignals(true);
+    m_opacitySpin->blockSignals(true);
+    m_maxWidthSpin->blockSignals(true);
+    m_maxHeightSpin->blockSignals(true);
+    m_verseScaleSpin->blockSignals(true);
+    m_refScaleSpin->blockSignals(true);
+
     m_originalTheme = m_mainWindow->theme();
     m_autoSwitchCheck->setChecked(m_mainWindow->autoSwitch());
     m_intervalSpin->setValue(m_mainWindow->switchInterval());
@@ -322,14 +330,24 @@ void SettingsDialog::loadCurrentValues()
     m_refScaleSpin->setValue(m_mainWindow->refScale());
     m_themeCombo->setCurrentIndex(static_cast<int>(m_mainWindow->theme()));
     
-    if (m_mainWindow->sizeMode() == SizeMode::Dynamic)
-        m_sizeModeGroup->button(0)->setChecked(true);
-    else
-        m_sizeModeGroup->button(1)->setChecked(true);
+    if (m_mainWindow->sizeMode() == SizeMode::Dynamic) {
+        if (auto b = m_sizeModeGroup->button(0)) b->setChecked(true);
+    } else {
+        if (auto b = m_sizeModeGroup->button(1)) b->setChecked(true);
+    }
 
     m_pathEdit->setText(m_mainWindow->biblePath());
     m_startupCheck->setChecked(StartupManager::isStartupEnabled());
+
+    m_themeCombo->blockSignals(false);
+    m_autoSwitchCheck->blockSignals(false);
+    m_opacitySpin->blockSignals(false);
+    m_maxWidthSpin->blockSignals(false);
+    m_maxHeightSpin->blockSignals(false);
+    m_verseScaleSpin->blockSignals(false);
+    m_refScaleSpin->blockSignals(false);
 }
+
 
 void SettingsDialog::onBrowseClicked()
 {

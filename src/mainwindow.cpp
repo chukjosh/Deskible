@@ -27,6 +27,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_reader, &BibleLocalReader::verseReady, this, &MainWindow::onVerseReady);
     
     setWindowIcon(QIcon(":/icons/icons/logo.png"));
+
+    // Ensure config dir exists
+    QString configDir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    QDir().mkpath(configDir);
+
     loadSettings();
 
     if (!m_reader->openFile(m_biblePath)) {
@@ -48,15 +53,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadSettings()
 {
-    QString configPath = QCoreApplication::applicationDirPath() + "/config.json";
+    QString configPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/config.json";
     QFile file(configPath);
     QJsonObject settings;
     if (file.open(QIODevice::ReadOnly)) {
         settings = QJsonDocument::fromJson(file.readAll()).object();
         file.close();
     } else {
-        // Fallback for first run
-        qDebug() << "Deskible: No config.json found, using defaults.";
+        // Fallback for first run or missing file
+        qDebug() << "Deskible: No config.json found at" << configPath << ", using defaults.";
     }
 
     m_switchInterval = settings.contains("switchInterval") ? settings["switchInterval"].toInt() : 60;
@@ -111,11 +116,13 @@ void MainWindow::saveSettings()
     settings["x"] = pos().x();
     settings["y"] = pos().y();
 
-    QString configPath = QCoreApplication::applicationDirPath() + "/config.json";
+    QString configPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/config.json";
     QFile file(configPath);
     if (file.open(QIODevice::WriteOnly)) {
         file.write(QJsonDocument(settings).toJson());
         file.close();
+    } else {
+        qDebug() << "Deskible: Failed to save config.json to" << configPath;
     }
 }
 
