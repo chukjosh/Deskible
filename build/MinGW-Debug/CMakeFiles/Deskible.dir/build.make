@@ -67,6 +67,7 @@ Deskible_autogen\timestamp: CMakeFiles\Deskible.dir\compiler_depend.ts
 
 Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\resources.qrc
 Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: CMakeFiles\Deskible_autogen.dir\AutoRcc_resources_3YJK5W5UP7_Info.json
+Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\logo.png
 Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\white\history.svg
 Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\white\bible.svg
 Deskible_autogen\3YJK5W5UP7\qrc_resources.cpp: C:\Users\chukjosh\Desktop\Projects\QtProjects\Deskible\resources\icons\white\color.svg
