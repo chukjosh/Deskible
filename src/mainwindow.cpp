@@ -186,9 +186,25 @@ void MainWindow::updateWindowSize()
 {
     if (m_sizeMode == SizeMode::Dynamic) {
         setFixedWidth(m_maxWidth);
-        setMinimumHeight(80);
-        setMaximumHeight(m_maxHeight);
-        adjustSize();
+        
+        // Calculate needed height
+        int padding = 18;
+        int margin = 10;
+        int contentWidth = m_maxWidth - (margin * 2) - (padding * 2);
+        
+        QFontMetrics fm(m_verseFont);
+        QRect textRect = fm.boundingRect(0, 0, contentWidth, 1000, 
+                                          Qt::AlignLeft | Qt::TextWordWrap, m_currentText);
+        
+        int neededHeight = textRect.height() + (margin * 2) + (padding * 2);
+        
+        // Add room for the reference if it exists
+        if (!m_currentRef.isEmpty()) {
+             neededHeight += fm.height() * 0.8 + 10;
+        }
+
+        neededHeight = qBound(80, neededHeight, m_maxHeight);
+        setFixedHeight(neededHeight);
     } else {
         setFixedSize(m_maxWidth, m_maxHeight);
     }

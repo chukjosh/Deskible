@@ -8,9 +8,9 @@
 #include <QLabel>
 #include <QFont>
 #include <QColor>
-#include <QComboBox>
 #include <QRadioButton>
 #include <QButtonGroup>
+#include <QScrollArea>
 
 class MainWindow;
 
@@ -22,11 +22,12 @@ public:
     explicit SettingsDialog(MainWindow *parent);
 
 private slots:
+    void onAccepted();
     void onBrowseClicked();
     void onPickFont();
     void onPickVerseColor();
     void onPickRefColor();
-    void onAccepted();
+    void onThemeChanged(int index);
 
 private:
     void applyStyle();
@@ -34,6 +35,8 @@ private:
     void loadCurrentValues();
 
     MainWindow *m_mainWindow;
+    QScrollArea *m_scrollArea;
+    Theme m_originalTheme;
 
     QComboBox *m_themeCombo;
     QButtonGroup *m_sizeModeGroup;

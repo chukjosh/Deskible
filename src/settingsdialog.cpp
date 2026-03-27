@@ -9,14 +9,27 @@
 #include <QFontDialog>
 #include <QColorDialog>
 #include <QApplication>
+#include <QScrollArea> // Added for QScrollArea
 
 SettingsDialog::SettingsDialog(MainWindow *parent)
     : QDialog(parent), m_mainWindow(parent)
 {
     setWindowTitle(tr("Deskible Settings"));
-    setMinimumWidth(450);
+    setMinimumWidth(480);
+    resize(500, 600); // Set a reasonable default height
 
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    QVBoxLayout *dialogLayout = new QVBoxLayout(this);
+    dialogLayout->setContentsMargins(0, 0, 0, 0);
+    dialogLayout->setSpacing(0);
+
+    m_scrollArea = new QScrollArea(this);
+    m_scrollArea->setWidgetResizable(true);
+    m_scrollArea->setFrameShape(QFrame::NoFrame);
+    
+    QWidget *scrollContent = new QWidget();
+    QVBoxLayout *mainLayout = new QVBoxLayout(scrollContent);
+    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setSpacing(15);
 
     bool isDark = true;
     if (m_mainWindow->theme() == Theme::Dark) isDark = true;
@@ -172,21 +185,38 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     startupLayout->addWidget(m_startupCheck);
     mainLayout->addWidget(startupGroup);
 
-    // Buttons
-    QHBoxLayout *btnLayout = new QHBoxLayout();
+    m_scrollArea->setWidget(scrollContent);
+    dialogLayout->addWidget(m_scrollArea);
+
+    // Buttons (outside scroll area)
+    QWidget *btnBar = new QWidget(this);
+    QHBoxLayout *btnLayout = new QHBoxLayout(btnBar);
+    btnLayout->setContentsMargins(20, 10, 20, 20);
+    
     QPushButton *okBtn = new QPushButton(QIcon(iconPrefix + "save.svg"), tr("OK"), this);
     QPushButton *cancelBtn = new QPushButton(QIcon(iconPrefix + "cancel.svg"), tr("Cancel"), this);
     connect(okBtn, &QPushButton::clicked, this, &SettingsDialog::onAccepted);
-    connect(cancelBtn, &QPushButton::clicked, this, &QDialog::reject);
+    connect(cancelBtn, &QPushButton::clicked, this, &SettingsDialog::reject);
     btnLayout->addStretch();
     btnLayout->addWidget(okBtn);
     btnLayout->addWidget(cancelBtn);
-    mainLayout->addLayout(btnLayout);
+    dialogLayout->addWidget(btnBar);
 
     loadCurrentValues();
-    applyStyle();
     
-    // Refresh icons based on the theme after loading values
+    // Connect live theme preview
+    connect(m_themeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SettingsDialog::onThemeChanged);
+    
+    // Initial style & icons
+    applyStyle();
+    refreshIcons();
+}
+
+void SettingsDialog::onThemeChanged(int index)
+{
+    // Apply dummy settings to main window just for preview
+    m_mainWindow->setTheme(static_cast<Theme>(index));
+    applyStyle();
     refreshIcons();
 }
 
@@ -216,6 +246,7 @@ void SettingsDialog::refreshIcons()
 
 void SettingsDialog::loadCurrentValues()
 {
+    m_originalTheme = m_mainWindow->theme();
     m_autoSwitchCheck->setChecked(m_mainWindow->autoSwitch());
     m_intervalSpin->setValue(m_mainWindow->switchInterval());
     m_currentFont = m_mainWindow->verseFont();
@@ -289,6 +320,13 @@ void SettingsDialog::onAccepted()
     m_mainWindow->saveSettings();
     m_mainWindow->applySettings();
     accept();
+}
+
+void SettingsDialog::reject()
+{
+    m_mainWindow->setTheme(m_originalTheme);
+    m_mainWindow->applySettings();
+    QDialog::reject();
 }
 
 void SettingsDialog::applyStyle()
