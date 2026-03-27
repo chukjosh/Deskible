@@ -31,6 +31,8 @@ private slots:
     void onPickFont();
     void onPickVerseColor();
     void onPickRefColor();
+    void onPickAccentColor();
+    void onResetDefaults();
     void onThemeChanged(int index);
     void reject() override;
 
@@ -47,6 +49,7 @@ private:
     QButtonGroup *m_sizeModeGroup;
 
     QDoubleSpinBox *m_verseScaleSpin;
+    QPushButton *m_accentBtn;
     QDoubleSpinBox *m_refScaleSpin;
     QCheckBox *m_autoSwitchCheck;
     QSpinBox *m_intervalSpin;
@@ -54,6 +57,7 @@ private:
     QFont m_currentFont;
     QColor m_currentVerseColor;
     QColor m_currentRefColor;
+    QColor m_currentAccentColor;
     QSpinBox *m_opacitySpin;
     QSpinBox *m_maxWidthSpin;
     QSpinBox *m_maxHeightSpin;

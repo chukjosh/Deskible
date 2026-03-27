@@ -7,6 +7,7 @@
 #include <QVector>
 #include <QFont>
 #include <QColor>
+#include <QVariantAnimation>
 #include "biblelocalreader.h"
 #include "common.h"
 
@@ -26,6 +27,7 @@ public:
     void setAutoSwitch(bool enabled);
     void setSwitchInterval(int seconds);
     void setOpacity(double opacity);
+    void setHoverOpacity(double opacity); // New setter
     void setMaxWidth(int width);
     void setMaxHeight(int height);
     void setTheme(Theme theme);
@@ -33,9 +35,11 @@ public:
     void setVerseFont(const QFont &font);
     void setVerseScale(double scale);
     void setVerseColor(const QColor &color);
+    void setAccentColor(const QColor &color);
     void setRefColor(const QColor &color);
     void setRefScale(double scale);
     void setBiblePath(const QString &path);
+    void resetToDefaults();
 
     // Verse navigation
     void nextVerse();
@@ -49,6 +53,7 @@ public:
     bool autoSwitch() const { return m_autoSwitch; }
     int switchInterval() const { return m_switchInterval; }
     double opacityValue() const { return m_opacity; }
+    double hoverOpacity() const { return m_hoverOpacity; } // New getter
     int maxWidthValue() const { return m_maxWidth; }
     int maxHeightValue() const { return m_maxHeight; }
     Theme theme() const { return m_theme; }
@@ -56,6 +61,7 @@ public:
     QFont verseFont() const { return m_verseFont; }
     double verseScale() const { return m_verseScale; }
     QColor verseColor() const { return m_verseColor; }
+    QColor accentColor() const { return m_accentColor; }
     QColor refColor() const { return m_refColor; }
     double refScale() const { return m_refScale; }
     QString biblePath() const { return m_biblePath; }
@@ -97,7 +103,6 @@ private:
     // Settings
     bool m_autoSwitch = true;
     int m_switchInterval = 60;
-    double m_opacity = 0.75;
     int m_maxWidth = 420;
     int m_maxHeight = 350;
     Theme m_theme = Theme::System;
@@ -105,14 +110,18 @@ private:
     QFont m_verseFont;
     double m_verseScale = 1.0;
     QColor m_verseColor;
+    QColor m_accentColor = QColor("#5555FF"); // Modern Indigo
     QColor m_refColor;
     double m_refScale = 0.78;
     QString m_biblePath;
+    double m_opacity = 0.0; // Moved and changed initial value
+    double m_hoverOpacity = 0.0; // Animated value
 
     // Interaction
     bool m_dragging = false;
     bool m_hovered = false;
     QPoint m_dragPos;
+    QVariantAnimation *m_fadeAnimation = nullptr;
 };
 
 #endif // MAINWINDOW_H

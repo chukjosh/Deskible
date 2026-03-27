@@ -79,6 +79,7 @@ void MainWindow::loadSettings()
     }
     m_verseScale = settings.contains("verseScale") ? settings["verseScale"].toDouble() : 1.0;
     m_verseColor = QColor(settings.contains("verseColor") ? settings["verseColor"].toString() : "#FFFFFFFF");
+    m_accentColor = QColor(settings.contains("accentColor") ? settings["accentColor"].toString() : "#5555FF");
     m_refColor = QColor(settings.contains("refColor") ? settings["refColor"].toString() : "#FFAAAAFF");
     m_refScale = settings.contains("refScale") ? settings["refScale"].toDouble() : 0.78;
     
@@ -110,6 +111,7 @@ void MainWindow::saveSettings()
     settings["verseFont"] = m_verseFont.toString();
     settings["verseScale"] = m_verseScale;
     settings["verseColor"] = m_verseColor.name(QColor::HexArgb);
+    settings["accentColor"] = m_accentColor.name(QColor::HexArgb);
     settings["refColor"] = m_refColor.name(QColor::HexArgb);
     settings["refScale"] = m_refScale;
     settings["filePath"] = m_biblePath;
@@ -155,11 +157,32 @@ void MainWindow::setMaxWidth(int width) { m_maxWidth = width; }
 void MainWindow::setMaxHeight(int height) { m_maxHeight = height; }
 void MainWindow::setTheme(Theme theme) { m_theme = theme; }
 void MainWindow::setSizeMode(SizeMode mode) { m_sizeMode = mode; }
-void MainWindow::setVerseFont(const QFont &font) { m_verseFont = font; }
 void MainWindow::setVerseScale(double scale) { m_verseScale = scale; }
 void MainWindow::setVerseColor(const QColor &color) { m_verseColor = color; }
+void MainWindow::setAccentColor(const QColor &color) { m_accentColor = color; }
+void MainWindow::setHoverOpacity(double opacity) { m_hoverOpacity = opacity; update(); }
+void MainWindow::setRefColor(const QColor &color) { m_refColor = color; }
 void MainWindow::setRefColor(const QColor &color) { m_refColor = color; }
 void MainWindow::setRefScale(double scale) { m_refScale = scale; }
+
+void MainWindow::resetToDefaults()
+{
+    m_switchInterval = 60;
+    m_autoSwitch = true;
+    m_opacity = 0.0;
+    m_maxWidth = 420;
+    m_maxHeight = 350;
+    m_theme = Theme::System;
+    m_sizeMode = SizeMode::Dynamic;
+    m_verseFont = QFont("Georgia", 13);
+    m_verseScale = 1.0;
+    m_verseColor = QColor("#FFFFFFFF");
+    m_accentColor = QColor("#5555FF");
+    m_refColor = QColor("#FFAAAAFF");
+    m_refScale = 0.78;
+    applySettings();
+}
+
 void MainWindow::setBiblePath(const QString &path) { m_biblePath = path; }
 
 void MainWindow::nextVerse()
@@ -272,29 +295,58 @@ void MainWindow::paintEvent(QPaintEvent *event)
         isDark = p.color(QPalette::WindowText).lightness() > p.color(QPalette::Window).lightness();
     }
 
-    QColor bgColor = isDark ? QColor(20, 20, 35) : QColor(245, 245, 250);
-    double targetOpacity = m_opacity;
-    if (m_hovered && targetOpacity < 0.15) targetOpacity = 0.15; // "A little dark" on hover
-    bgColor.setAlphaF(targetOpacity);
+    // Background Colors
+    QColor baseBg = isDark ? QColor(15, 15, 25) : QColor(250, 250, 255);
+    QColor accentLayer = m_accentColor;
     
-    QColor shadowColor = isDark ? QColor(0, 0, 0) : QColor(100, 100, 120);
-    int shadowAlpha = isDark ? 12 : 8;
+    double totalOpacity = m_opacity + (m_hoverOpacity * 0.25);
+    if (totalOpacity > 0.95) totalOpacity = 0.95;
 
-    // Drop shadow
-    for (int i = 6; i >= 1; --i) {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(shadowColor.red(), shadowColor.green(), shadowColor.blue(), shadowAlpha * i));
-        painter.drawRoundedRect(rect.adjusted(-i, -i, i, i), 16 + i, 16 + i);
+    baseBg.setAlphaF(totalOpacity);
+    accentLayer.setAlphaF(m_hoverOpacity * 0.1); // Subtle tint on hover
+
+    // --- Layer 1: Outer Shadow ---
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor(0, 0, 0, 40));
+    painter.drawRoundedRect(rect.adjusted(2, 2, 2, 2), 14, 14);
+
+    // --- Layer 2: Main Body ---
+    painter.setBrush(baseBg);
+    painter.drawRoundedRect(rect, 12, 12);
+
+    // --- Layer 3: Accent Tint ---
+    if (m_hoverOpacity > 0.01) {
+        painter.setBrush(accentLayer);
+        painter.drawRoundedRect(rect, 12, 12);
     }
 
-    // Background
-    painter.setBrush(bgColor);
-    painter.drawRoundedRect(rect, 16, 16);
+    // --- Layer 4: Modern Border (Glass effect) ---
+    QLinearGradient borderGrad(rect.topLeft(), rect.bottomRight());
+    if (isDark) {
+        borderGrad.setColorAt(0, QColor(255, 255, 255, 60));
+        borderGrad.setColorAt(0.5, QColor(255, 255, 255, 20));
+        borderGrad.setColorAt(1, QColor(255, 255, 255, 40));
+    } else {
+        borderGrad.setColorAt(0, QColor(0, 0, 0, 40));
+        borderGrad.setColorAt(1, QColor(0, 0, 0, 10));
+    }
+    
+    QPen borderPen(borderGrad, 1.2);
+    painter.setPen(borderPen);
+    painter.setBrush(Qt::NoPen);
+    painter.drawRoundedRect(rect.adjusted(1, 1, -1, -1), 12, 12);
 
-    // Subtle edge highlight
-    painter.setPen(QPen(isDark ? QColor(255, 255, 255, 30) : QColor(0, 0, 0, 20), 1));
-    painter.setBrush(Qt::NoBrush);
-    painter.drawRoundedRect(rect, 16, 16);
+    // --- Layer 5: Accent Indicator (Left line) ---
+    if (m_hoverOpacity > 0.1) {
+        painter.setPen(Qt::NoPen);
+        QColor indicatorCol = m_accentColor;
+        indicatorCol.setAlphaF(m_hoverOpacity);
+        painter.setBrush(indicatorCol);
+        painter.drawRoundedRect(2, 20, 3, rect.height() - 40, 1, 1);
+    }
+
+    int padding = 18;
+    QRect contentRect = rect.adjusted(padding, padding, -padding, -padding);
 
     // Top subtle highlight (glass effect)
     QPainterPath highlight;
@@ -330,6 +382,12 @@ void MainWindow::paintEvent(QPaintEvent *event)
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
+        // If clicking the bottom 30% area (where reference usually is), copy it
+        if (event->pos().y() > height() * 0.7) {
+            QApplication::clipboard()->setText(m_currentRef);
+            // Quick visual feedback? (Not yet)
+        }
+        
         m_dragging = true;
         m_dragPos = event->globalPosition().toPoint() - frameGeometry().topLeft();
         event->accept();
@@ -418,14 +476,36 @@ void MainWindow::enterEvent(QEnterEvent *event)
 {
     Q_UNUSED(event);
     m_hovered = true;
-    update();
+    
+    if (m_fadeAnimation) m_fadeAnimation->stop();
+    m_fadeAnimation = new QVariantAnimation(this);
+    m_fadeAnimation->setDuration(300);
+    m_fadeAnimation->setStartValue(m_hoverOpacity);
+    m_fadeAnimation->setEndValue(1.0);
+    m_fadeAnimation->setEasingCurve(QEasingCurve::OutCubic);
+    connect(m_fadeAnimation, &QVariantAnimation::valueChanged, [this](const QVariant &val) {
+        m_hoverOpacity = val.toDouble();
+        update();
+    });
+    m_fadeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void MainWindow::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
     m_hovered = false;
-    update();
+    
+    if (m_fadeAnimation) m_fadeAnimation->stop();
+    m_fadeAnimation = new QVariantAnimation(this);
+    m_fadeAnimation->setDuration(400);
+    m_fadeAnimation->setStartValue(m_hoverOpacity);
+    m_fadeAnimation->setEndValue(0.0);
+    m_fadeAnimation->setEasingCurve(QEasingCurve::InSine);
+    connect(m_fadeAnimation, &QVariantAnimation::valueChanged, [this](const QVariant &val) {
+        m_hoverOpacity = val.toDouble();
+        update();
+    });
+    m_fadeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 

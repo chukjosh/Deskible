@@ -29,8 +29,30 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     QWidget *scrollContent = new QWidget();
     scrollContent->setObjectName("scrollContent");
     QVBoxLayout *mainLayout = new QVBoxLayout(scrollContent);
-    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setContentsMargins(20, 10, 20, 20);
     mainLayout->setSpacing(15);
+
+    // --- Modern Header ---
+    QWidget *header = new QWidget(this);
+    header->setObjectName("settingsHeader");
+    QHBoxLayout *headerLayout = new QHBoxLayout(header);
+    headerLayout->setContentsMargins(0, 0, 0, 10);
+    
+    QLabel *logoLab = new QLabel(this);
+    logoLab->setPixmap(QIcon(":/icons/icons/logo.png").pixmap(48, 48));
+    headerLayout->addWidget(logoLab);
+    
+    QVBoxLayout *titleLayout = new QVBoxLayout();
+    QLabel *titleLab = new QLabel("Deskible", this);
+    titleLab->setStyleSheet("font-size: 24px; font-weight: bold; color: white;");
+    QLabel *subtitleLab = new QLabel(tr("Bible Overlay Settings & Preferences"), this);
+    subtitleLab->setStyleSheet("font-size: 12px; color: #a0a0ff;");
+    titleLayout->addWidget(titleLab);
+    titleLayout->addWidget(subtitleLab);
+    headerLayout->addLayout(titleLayout);
+    headerLayout->addStretch();
+    
+    mainLayout->addWidget(header);
 
     bool isDark = true;
     if (m_mainWindow->theme() == Theme::Dark) isDark = true;
@@ -102,12 +124,16 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     appLayout->addLayout(refScaleLayout);
 
     QHBoxLayout *colorLayout = new QHBoxLayout();
-    QPushButton *vColorBtn = new QPushButton(QIcon(iconPrefix + "color.svg"), tr("Verse Color..."), this);
+    QPushButton *vColorBtn = new QPushButton(QIcon(iconPrefix + "color.svg"), tr("Verse..."), this);
     connect(vColorBtn, &QPushButton::clicked, this, &SettingsDialog::onPickVerseColor);
-    QPushButton *rColorBtn = new QPushButton(QIcon(iconPrefix + "color.svg"), tr("Ref Color..."), this);
+    QPushButton *rColorBtn = new QPushButton(QIcon(iconPrefix + "color.svg"), tr("Reference..."), this);
     connect(rColorBtn, &QPushButton::clicked, this, &SettingsDialog::onPickRefColor);
+    m_accentBtn = new QPushButton(QIcon(iconPrefix + "color.svg"), tr("Accent..."), this);
+    connect(m_accentBtn, &QPushButton::clicked, this, &SettingsDialog::onPickAccentColor);
+    
     colorLayout->addWidget(vColorBtn);
     colorLayout->addWidget(rColorBtn);
+    colorLayout->addWidget(m_accentBtn);
     appLayout->addLayout(colorLayout);
 
     QHBoxLayout *opacityLayout = new QHBoxLayout();
@@ -258,8 +284,14 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     
     QPushButton *okBtn = new QPushButton(QIcon(iconPrefix + "save.svg"), tr("OK"), this);
     QPushButton *cancelBtn = new QPushButton(QIcon(iconPrefix + "cancel.svg"), tr("Cancel"), this);
+    QPushButton *resetBtn = new QPushButton(tr("Reset Defaults"), this);
+    resetBtn->setObjectName("resetBtn");
+    
     connect(okBtn, &QPushButton::clicked, this, &SettingsDialog::onAccepted);
     connect(cancelBtn, &QPushButton::clicked, this, &SettingsDialog::reject);
+    connect(resetBtn, &QPushButton::clicked, this, &SettingsDialog::onResetDefaults);
+
+    btnLayout->addWidget(resetBtn);
     btnLayout->addStretch();
     btnLayout->addWidget(okBtn);
     btnLayout->addWidget(cancelBtn);
@@ -323,6 +355,7 @@ void SettingsDialog::loadCurrentValues()
     m_currentFont = m_mainWindow->verseFont();
     m_currentVerseColor = m_mainWindow->verseColor();
     m_currentRefColor = m_mainWindow->refColor();
+    m_currentAccentColor = m_mainWindow->accentColor();
     m_opacitySpin->setValue(static_cast<int>(m_mainWindow->opacityValue() * 100));
     m_maxWidthSpin->setValue(m_mainWindow->maxWidthValue());
     m_maxHeightSpin->setValue(m_mainWindow->maxHeightValue());
@@ -388,6 +421,19 @@ void SettingsDialog::onPickVerseColor()
     }
 }
 
+void SettingsDialog::onPickAccentColor()
+{
+    QColorDialog dialog(m_currentAccentColor, this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel);
+    dialog.setOption(QColorDialog::DontUseNativeDialog);
+    if (dialog.exec() == QDialog::Accepted) {
+        m_currentAccentColor = dialog.selectedColor();
+        m_mainWindow->setAccentColor(m_currentAccentColor);
+        m_mainWindow->applySettings();
+        applyStyle(); // Live update of dialog accent? Yes!
+    }
+}
+
 void SettingsDialog::onPickRefColor()
 {
     QColorDialog dialog(m_currentRefColor, this);
@@ -400,6 +446,14 @@ void SettingsDialog::onPickRefColor()
     }
 }
 
+void SettingsDialog::onResetDefaults()
+{
+    m_mainWindow->resetToDefaults();
+    loadCurrentValues();
+    applyStyle();
+    refreshIcons();
+}
+
 void SettingsDialog::onAccepted()
 {
     m_mainWindow->setAutoSwitch(m_autoSwitchCheck->isChecked());
@@ -407,6 +461,7 @@ void SettingsDialog::onAccepted()
     m_mainWindow->setVerseFont(m_currentFont);
     m_mainWindow->setVerseScale(m_verseScaleSpin->value());
     m_mainWindow->setVerseColor(m_currentVerseColor);
+    m_mainWindow->setAccentColor(m_currentAccentColor);
     m_mainWindow->setRefColor(m_currentRefColor);
     m_mainWindow->setRefScale(m_refScaleSpin->value());
     m_mainWindow->setOpacity(m_opacitySpin->value() / 100.0);
@@ -440,16 +495,19 @@ void SettingsDialog::applyStyle()
         isDark = p.color(QPalette::WindowText).lightness() > p.color(QPalette::Window).lightness();
     }
 
+    QString accentColorHex = m_mainWindow->accentColor().name();
+
     if (isDark) {
-        setStyleSheet(
+        setStyleSheet(QString(
             "SettingsDialog { background-color: #12122a; color: #e8e8f8; }"
             "QWidget#scrollContent { background-color: #12122a; }"
+            "QWidget#settingsHeader { border-bottom: 2px solid %1; margin-bottom: 10px; }"
             "QScrollArea { background-color: #12122a; border: none; }"
             "QGroupBox { border: 1px solid #333355; border-radius: 10px; margin-top: 15px; padding-top: 25px; color: #a0a0ff; font-weight: bold; font-size: 14px; }"
             "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 5px; }"
             "QLabel { color: #e8e8f8; background: transparent; }"
             "QPushButton { background-color: #2a2a5e; color: white; border-radius: 6px; padding: 8px 16px; border: 1px solid #333355; font-weight: bold; }"
-            "QPushButton:hover { background-color: #3a3a7e; border: 1px solid #5555ff; }"
+            "QPushButton:hover { background-color: #3a3a7e; border: 1px solid %1; }"
             "QLineEdit { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
             "QSpinBox { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
             "QComboBox { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
@@ -458,19 +516,20 @@ void SettingsDialog::applyStyle()
             "QCheckBox { color: #e8e8f8; spacing: 8px; }"
             "QRadioButton { color: #e8e8f8; spacing: 8px; }"
             "QScrollBar:vertical { border: none; background: #12122a; width: 10px; margin: 0px; }"
-            "QScrollBar::handle:vertical { background: #333355; min-height: 20px; border-radius: 5px; }"
+            "QScrollBar::handle:vertical { background: %1; min-height: 20px; border-radius: 5px; opacity: 0.6; }"
             "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
-        );
+        ).arg(accentColorHex));
     } else {
-        setStyleSheet(
+        setStyleSheet(QString(
             "SettingsDialog { background-color: #f5f5fa; color: #1a1a2e; }"
             "QWidget#scrollContent { background-color: #f5f5fa; }"
+            "QWidget#settingsHeader { border-bottom: 2px solid %1; margin-bottom: 10px; }"
             "QScrollArea { background-color: #f5f5fa; border: none; }"
             "QGroupBox { border: 1px solid #d0d0df; border-radius: 10px; margin-top: 15px; padding-top: 25px; color: #2a2a5e; font-weight: bold; font-size: 14px; }"
             "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 5px; }"
             "QLabel { color: #1a1a2e; background: transparent; }"
             "QPushButton { background-color: #ffffff; color: #2a2a5e; border-radius: 6px; padding: 8px 16px; border: 1px solid #d0d0df; font-weight: bold; }"
-            "QPushButton:hover { background-color: #f0f0ff; border: 1px solid #5555ff; }"
+            "QPushButton:hover { background-color: #f0f0ff; border: 1px solid %1; }"
             "QLineEdit { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
             "QSpinBox { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
             "QComboBox { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
@@ -479,8 +538,8 @@ void SettingsDialog::applyStyle()
             "QCheckBox { color: #1a1a2e; spacing: 8px; }"
             "QRadioButton { color: #1a1a2e; spacing: 8px; }"
             "QScrollBar:vertical { border: none; background: #f5f5fa; width: 10px; margin: 0px; }"
-            "QScrollBar::handle:vertical { background: #d0d0df; min-height: 20px; border-radius: 5px; }"
+            "QScrollBar::handle:vertical { background: %1; min-height: 20px; border-radius: 5px; }"
             "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
-        );
+        ).arg(accentColorHex));
     }
 }
