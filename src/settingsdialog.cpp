@@ -27,6 +27,7 @@ SettingsDialog::SettingsDialog(MainWindow *parent)
     m_scrollArea->setFrameShape(QFrame::NoFrame);
     
     QWidget *scrollContent = new QWidget();
+    scrollContent->setObjectName("scrollContent");
     QVBoxLayout *mainLayout = new QVBoxLayout(scrollContent);
     mainLayout->setContentsMargins(20, 20, 20, 20);
     mainLayout->setSpacing(15);
@@ -357,10 +358,12 @@ void SettingsDialog::applyStyle()
 
     if (isDark) {
         setStyleSheet(
-            "QDialog { background-color: #12122a; color: #e8e8f8; }"
-            "QGroupBox { border: 1px solid #333355; border-radius: 10px; margin-top: 15px; padding-top: 15px; color: #a0a0ff; font-weight: bold; font-size: 14px; }"
-            "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 5px; }"
-            "QLabel { color: #e8e8f8; }"
+            "SettingsDialog { background-color: #12122a; color: #e8e8f8; }"
+            "QWidget#scrollContent { background-color: #12122a; }"
+            "QScrollArea { background-color: #12122a; border: none; }"
+            "QGroupBox { border: 1px solid #333355; border-radius: 10px; margin-top: 15px; padding-top: 25px; color: #a0a0ff; font-weight: bold; font-size: 14px; }"
+            "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 5px; }"
+            "QLabel { color: #e8e8f8; background: transparent; }"
             "QPushButton { background-color: #2a2a5e; color: white; border-radius: 6px; padding: 8px 16px; border: 1px solid #333355; font-weight: bold; }"
             "QPushButton:hover { background-color: #3a3a7e; border: 1px solid #5555ff; }"
             "QLineEdit { background-color: #1a1a2e; color: white; border: 1px solid #333355; border-radius: 6px; padding: 6px; }"
@@ -370,13 +373,18 @@ void SettingsDialog::applyStyle()
             "QComboBox::down-arrow { image: url(:/icons/icons/white/next.svg); width: 12px; height: 12px; }"
             "QCheckBox { color: #e8e8f8; spacing: 8px; }"
             "QRadioButton { color: #e8e8f8; spacing: 8px; }"
+            "QScrollBar:vertical { border: none; background: #12122a; width: 10px; margin: 0px; }"
+            "QScrollBar::handle:vertical { background: #333355; min-height: 20px; border-radius: 5px; }"
+            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
         );
     } else {
         setStyleSheet(
-            "QDialog { background-color: #f5f5fa; color: #1a1a2e; }"
-            "QGroupBox { border: 1px solid #d0d0df; border-radius: 10px; margin-top: 15px; padding-top: 15px; color: #2a2a5e; font-weight: bold; font-size: 14px; }"
-            "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 5px; }"
-            "QLabel { color: #1a1a2e; }"
+            "SettingsDialog { background-color: #f5f5fa; color: #1a1a2e; }"
+            "QWidget#scrollContent { background-color: #f5f5fa; }"
+            "QScrollArea { background-color: #f5f5fa; border: none; }"
+            "QGroupBox { border: 1px solid #d0d0df; border-radius: 10px; margin-top: 15px; padding-top: 25px; color: #2a2a5e; font-weight: bold; font-size: 14px; }"
+            "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 5px; }"
+            "QLabel { color: #1a1a2e; background: transparent; }"
             "QPushButton { background-color: #ffffff; color: #2a2a5e; border-radius: 6px; padding: 8px 16px; border: 1px solid #d0d0df; font-weight: bold; }"
             "QPushButton:hover { background-color: #f0f0ff; border: 1px solid #5555ff; }"
             "QLineEdit { background-color: #ffffff; color: #1a1a2e; border: 1px solid #d0d0df; border-radius: 6px; padding: 6px; }"
@@ -386,6 +394,9 @@ void SettingsDialog::applyStyle()
             "QComboBox::down-arrow { image: url(:/icons/icons/dark/next.svg); width: 12px; height: 12px; }"
             "QCheckBox { color: #1a1a2e; spacing: 8px; }"
             "QRadioButton { color: #1a1a2e; spacing: 8px; }"
+            "QScrollBar:vertical { border: none; background: #f5f5fa; width: 10px; margin: 0px; }"
+            "QScrollBar::handle:vertical { background: #d0d0df; min-height: 20px; border-radius: 5px; }"
+            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
         );
     }
 }
