@@ -14,6 +14,7 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QClipboard>
+#include "modernswitch.h"
 #include "common.h"
 
 class MainWindow;
@@ -65,7 +66,7 @@ private:
     QLineEdit *m_pathEdit;
     QLabel *m_statusLabel;
     
-    QCheckBox *m_startupCheck;
+    ModernSwitch *m_startupCheck;
 };
 
 #endif // SETTINGSDIALOG_H

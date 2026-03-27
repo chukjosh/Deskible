@@ -271,12 +271,17 @@ void MainWindow::updateWindowSize()
 
         neededHeight = qBound(80, neededHeight, m_maxHeight);
         
-        // Animate size change
+        // Calculate new geometry keeping the CENTER position
+        QPoint oldCenter = geometry().center();
+        QRect newRect(0, 0, m_maxWidth, neededHeight);
+        newRect.moveCenter(oldCenter);
+
+        // Animate size change while keeping center
         if (m_sizeAnimation) m_sizeAnimation->stop();
         m_sizeAnimation = new QPropertyAnimation(this, "geometry");
         m_sizeAnimation->setDuration(400);
         m_sizeAnimation->setStartValue(geometry());
-        m_sizeAnimation->setEndValue(QRect(x(), y(), m_maxWidth, neededHeight));
+        m_sizeAnimation->setEndValue(newRect);
         m_sizeAnimation->setEasingCurve(QEasingCurve::OutBack);
         m_sizeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
     } else {
@@ -312,6 +317,11 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     baseBg.setAlphaF(totalOpacity);
     accentLayer.setAlphaF(m_hoverOpacity * 0.1); // Subtle tint on hover
+
+    if (totalOpacity < 0.01) {
+        // Truly transparent when not hovered and base opacity is 0
+        return; 
+    }
 
     // --- Layer 1: Outer Shadow ---
     painter.setPen(Qt::NoPen);

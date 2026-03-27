@@ -18,6 +18,7 @@ add_executable(Deskible
     src/settingsdialog.h src/settingsdialog.cpp
     src/systemtraymanager.h src/systemtraymanager.cpp
     src/startupmanager.h src/startupmanager.cpp
+    src/modernswitch.h
     resources/resources.qrc
 )
 
