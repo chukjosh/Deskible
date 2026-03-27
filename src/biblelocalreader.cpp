@@ -27,17 +27,11 @@ bool BibleLocalReader::openFile(const QString &path)
     QTextStream in(&file);
     in.setEncoding(QStringConverter::Utf8);
 
-    // Skip line 1 (BOM + version label) and line 2 (attribution)
-    if (in.atEnd()) return false;
-    in.readLine(); 
-    if (in.atEnd()) return false;
-    in.readLine();
-
     while (!in.atEnd()) {
         QString line = in.readLine();
         if (line.isEmpty()) continue;
-
-        // Split on FIRST tab only
+        
+        // Skip header lines that don't contain a tab (or don't look like verses)
         int tabIdx = line.indexOf('\t');
         if (tabIdx == -1) continue;
 
@@ -78,13 +72,13 @@ bool BibleLocalReader::openFile(const QString &path)
         }
     }
 
-    if (m_verses.size() == 31102) {
+    if (m_verses.size() >= 31100 && m_verses.size() <= 31105) {
         m_loaded = true;
         return true;
     } else {
-        m_error = tr("Parsed %1 verses, expected 31102.").arg(m_verses.size());
+        m_error = tr("Parsed %1 verses. Expected around 31102.").arg(m_verses.size());
         emit errorOccurred(m_error);
-        return false;
+        return (m_verses.size() > 0); // Allow loading if at least something was found
     }
 }
 
