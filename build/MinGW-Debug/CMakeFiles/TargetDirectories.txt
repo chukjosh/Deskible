@@ -1,5 +1,0 @@
-C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/CMakeFiles/Deskible.dir
-C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/CMakeFiles/edit_cache.dir
-C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/CMakeFiles/Deskible_autogen_timestamp_deps.dir
-C:/Users/chukjosh/Desktop/Projects/QtProjects/Deskible/build/MinGW-Debug/CMakeFiles/Deskible_autogen.dir
