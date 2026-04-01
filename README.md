@@ -40,4 +40,4 @@ Deskible offers several customization options in the Settings dialog:
 - `WindowStaysOnBottomHint` behavior varies across operating systems and desktop environments. On some Linux distributions, the window might not stay strictly behind all others.
 
 ## License
-MIT License - Copyright (c) 2026 Deskible
+This project is licensed under Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
